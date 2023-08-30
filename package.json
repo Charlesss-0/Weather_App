@@ -29,7 +29,6 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "autoprefixer": "^10.4.15",
-    "postcss": "^8.4.29"
+    "autoprefixer": "^10.4.15"
   }
 }
