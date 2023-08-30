@@ -52,6 +52,10 @@ async function renderWeather (response) {
                 ${city}, ${region}, ${country}
             </h1>
 
+            <h2 class="text-center text-2xl font-medium">
+                Now
+            </h2>
+
             <div class="grid justify-items-center gap-y-2">
                 <img src="${iconCondition}" class="w-12">
 
@@ -80,11 +84,11 @@ async function renderWeather (response) {
                     <img src="${dayOne}" class="w-12">
 
                     <p>
-                        ${minTempDayOne}°C
+                        min ${minTempDayOne}°C
                     </p>
 
                     <p>
-                        ${maxTempDayOne}°C
+                        max ${maxTempDayOne}°C
                     </p>
                 </div>
 
@@ -96,11 +100,11 @@ async function renderWeather (response) {
                     <img src="${dayTwo}" class="w-12">
 
                     <p>
-                        ${minTempDayTwo}°C
+                        min ${minTempDayTwo}°C
                     </p>
 
                     <p>
-                        ${maxTempDayTwo}°C
+                        max ${maxTempDayTwo}°C
                     </p>
                 </div>
 
@@ -112,11 +116,11 @@ async function renderWeather (response) {
                     <img src="${dayThree}" class="w-12">
 
                     <p>
-                        ${minTempDayThree}°C
+                        min ${minTempDayThree}°C
                     </p>
 
                     <p>
-                        ${maxTempDayThree}°C
+                        max ${maxTempDayThree}°C
                     </p>
                 </div>
             </div>
