@@ -6,20 +6,38 @@
     <title>Weather App</title>
     <link rel="stylesheet" href="./styles.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </head>
-<body class="bg-slate-200">
-    <main id="main-content">
-        <div class="flex items-center py-3 px-6 fixed top-0 w-full bg-slate-300">
-            <i class="fi fi-rr-menu-burger grid text-3xl"></i>
+<body class="bg-zinc-900">
+    <main id="main-content" class="text-gray-200">
+        <div class="flex items-center gap-x-4 py-3 px-6 fixed top-0 w-full bg-zinc-700">
+            <i class="fi fi-rr-menu-burger grid text-3xl cursor-pointer"></i>
             
-            <form action="#" id="search-form" class="w-full flex justify-center">
-                <input type="search" id="search-input" class="rounded-3xl w-9/12 p-2 outline-0">
+            <form action="#" id="search-form" class="w-full flex justify-center items-center bg-gray-100 max-w-lg mx-auto rounded-full p-1 px-3 pr-4">
+                <input type="search" id="search-input" class="w-full p-2 outline-0 bg-transparent text-gray-800 tracking-wide">
+
+                <button type="submit">
+                    <i class="fi fi-br-search flex text-2xl text-gray-700"></i>
+                </button>
             </form>
+
+            <i class="fi fi-rr-circle-user grid text-3xl cursor-pointer"></i>
         </div>
 
         <div id="weather-info"></div>
     </main>
+
+    <footer class="flex justify-around text-gray-200 bg-gray-950 py-10">
+        <p>
+            Powered by <a href="https://www.weatherapi.com" target="_blank" class="hover:underline">Weatherapi.com</a>
+        </p>
+
+        <p>
+            &copy;  <a href="https://github.com/Charlesss-0" target="_blank" class="hover:underline">CHARLESDEV</a>
+        </p>
+    </footer>
 
     <script src="./main.js"></script>
 </body>
