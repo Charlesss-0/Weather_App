@@ -8,6 +8,7 @@ async function getWeatherData () {
             { mode: 'cors' }
         )
         const json = await response.json()
+        console.log(json)
     
         return json    
     } catch (error) {
@@ -22,6 +23,7 @@ getWeatherData()
 async function renderWeather (response) {
     const city = await response.location.name
     const region = await response.location.region
+    const country = await response.location.country
     const textCondition = await response.current.condition.text
     const iconCondition = await response.current.condition.icon
     const feelslike = Math.floor(response.current.temp_c)
@@ -30,6 +32,10 @@ async function renderWeather (response) {
     const dayOne = await response.forecast.forecastday[0].day.condition.icon
     const dayTwo = await response.forecast.forecastday[1].day.condition.icon
     const dayThree = await response.forecast.forecastday[2].day.condition.icon
+
+    const dayOneDate = await response.forecast.forecastday[1].date
+    const dayTwoDate = await response.forecast.forecastday[2].date
+    const dayThreeDate = await response.forecast.forecastday[3].date
 
     const minTempDayOne = Math.floor(response.forecast.forecastday[0].day.mintemp_c)
     const maxTempDayOne = Math.floor(response.forecast.forecastday[0].day.maxtemp_c)
@@ -41,9 +47,9 @@ async function renderWeather (response) {
     const maxTempDayThree = Math.floor(response.forecast.forecastday[2].day.maxtemp_c)
 
     weatherInfo.innerHTML = `
-        <div class="mt-16 mx-auto max-w-lg p-3 h-full flex flex-col gap-10">
+        <div class="mt-20 mx-auto max-w-2xl p-3 h-full flex flex-col gap-8">
             <h1 class="text-center text-2xl font-medium mb-10">
-                ${city}, ${region}
+                ${city}, ${region}, ${country}
             </h1>
 
             <div class="grid justify-items-center gap-y-2">
@@ -65,8 +71,12 @@ async function renderWeather (response) {
                 </p>
             </div>
 
-            <div class="w-full p-3 flex flex-col gap-3">
+            <div class="w-full p-3 flex flex-col gap-3 mt-10">
                 <div class="flex justify-around items-center">
+                    <p>
+                        ${dayOneDate}
+                    </p>
+
                     <img src="${dayOne}" class="w-12">
 
                     <p>
@@ -79,6 +89,10 @@ async function renderWeather (response) {
                 </div>
 
                 <div class="flex justify-around items-center">
+                    <p>
+                        ${dayTwoDate}
+                    </p>
+
                     <img src="${dayTwo}" class="w-12">
 
                     <p>
@@ -91,6 +105,10 @@ async function renderWeather (response) {
                 </div>
 
                 <div class="flex items-center justify-around items-center">
+                    <p>
+                        ${dayThreeDate}
+                    </p>
+
                     <img src="${dayThree}" class="w-12">
 
                     <p>
