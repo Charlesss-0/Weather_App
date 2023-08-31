@@ -640,6 +640,10 @@ video {
   justify-content: space-around;
 }
 
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
 .justify-items-center {
   justify-items: center;
 }
@@ -866,6 +870,10 @@ video {
 
 .\[\&\>\*\]\:p-2>* {
   padding: 0.5rem;
+}
+
+.\[\&\>\*\]\:text-center>* {
+  text-align: center;
 }
 
 .\[\&\>\*\]\:transition-all>* {
