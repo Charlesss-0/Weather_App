@@ -9,3 +9,11 @@
 #search-input:-webkit-autofill {
     box-shadow: 0 0 0px 1000px rgb(243 244 246) inset;
 }
+
+.translate-left {
+    transform: translate(-100%);
+}
+
+.margin-left-none {
+    margin-left: 0 !important;
+}
