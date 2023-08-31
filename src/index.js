@@ -1,4 +1,4 @@
-import { format, addDays, parse } from "date-fns"
+import { format } from "date-fns"
 
 const mainContent = document.getElementById('main-content')
 const footerContent = document.getElementById('footer-content')
@@ -8,18 +8,22 @@ const searchForm = document.getElementById('search-form')
 const searchInput = document.getElementById('search-input')
 const burgerMenu = document.getElementById('burger-menu')
 
-async function getWeatherData () {
-    const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=juigalpa&days=05`,
-            { mode: 'cors' }
-        )
-    const json = await response.json()
-    console.log(json)
+async function getWeatherData (position) {
+    const latitude = position.coords.latitude
+    const longitude = position.coords.longitude
 
-    return json
+    const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${latitude},${longitude}&days=04`,
+    { mode: 'cors' })
+    const json = await response.json()
+    renderWeather(json)
+    renderCurrentTime(latitude, longitude)
+
+    setInterval(() => {
+        renderCurrentTime(latitude, longitude)
+    }, 30000)
 }
 
-getWeatherData()
-    .then(renderWeather)
+navigator.geolocation.watchPosition(getWeatherData)
 
 function renderWeather (response) {
     const city = response.location.name
@@ -133,19 +137,33 @@ function renderWeather (response) {
             </div>
         </div>
     `
-    
-    getCurrentTime()
-    getCurrentDate()
-
-    setInterval(() => {
-        getCurrentTime()
-    }, 1000)
 }
 
-function getCurrentTime () {
+function renderCurrentTime (latitude, longitude) {
+    fetch(`http://api.timezonedb.com/v2.1/get-time-zone?key=FB9X38BQ1RT7&format=json&by=position&lat=${latitude}&lng=${longitude}`, { mode: 'cors' })
+        .then(response => response.json())
+        .then(getCurrentDate)
+}
+
+function getCurrentDate (response) {
+    const currentDateEl = document.getElementById('current-date')
     const currentTimeEl = document.getElementById('current-time')
-    const now = new Date()
-    const formattedTime = format(now, 'HH:mm:ss')
+    const dateTimeString = response.formatted
+
+    const dateTime = new Date(dateTimeString)
+
+    const formattedTime = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    const formattedDate = dateTime.toLocaleDateString({ year: 'numeric', month: 'long', day: 'numeric' })
+
+    currentDateEl.innerHTML = `
+        <p class="text-center">
+            Date
+        </p>
+
+        <p>
+            ${formattedDate}
+        </p>
+    `
 
     currentTimeEl.innerHTML = `
         <p class="text-center">
@@ -158,23 +176,6 @@ function getCurrentTime () {
     `
 }
 
-function getCurrentDate () {
-    const currentDateEl = document.getElementById('current-date')
-    const now = new Date()
-    const date = format(now, 'yyyy MM dd')
-
-    currentDateEl.innerHTML = `
-        <p class="text-center">
-            Today
-        </p>
-
-        <p>
-            ${date}
-        </p>
-    `
-
-}
-
 searchForm.addEventListener('submit', searchCity)
 
 async function searchCity (event) {
@@ -183,13 +184,13 @@ async function searchCity (event) {
     const input = searchInput.value
     if (input !== '') {
         const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${input}&days=05`,
-        { mode: 'cors' }
-    )
+        { mode: 'cors' })
         const json = await response.json()
 
         weatherInfo.innerHTML = ''
         footerContent.classList.remove('absolute', 'bottom-0', 'left-0', 'right-0')
         renderWeather(json)
+        console.log(json)
     } else {
         weatherInfo.innerHTML = `
             <h1 class="mt-24 text-gray-200 text-3xl text-center">
