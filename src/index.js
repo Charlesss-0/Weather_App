@@ -1,4 +1,5 @@
 import { format } from "date-fns"
+import { zonedTimeToUtc } from "date-fns-tz"
 
 const mainContent = document.getElementById('main-content')
 const footerContent = document.getElementById('footer-content')
@@ -9,21 +10,17 @@ const searchInput = document.getElementById('search-input')
 const burgerMenu = document.getElementById('burger-menu')
 
 async function getWeatherData (position) {
-    const latitude = position.coords.latitude
-    const longitude = position.coords.longitude
+    const lat = position.coords.latitude
+    const lon = position.coords.longitude
 
-    const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${latitude},${longitude}&days=04`,
+    const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${lat},${lon}&days=04`,
     { mode: 'cors' })
     const json = await response.json()
     renderWeather(json)
-    renderCurrentTime(latitude, longitude)
-
-    setInterval(() => {
-        renderCurrentTime(latitude, longitude)
-    }, 30000)
+    renderCurrentTime(lat, lon)
 }
 
-navigator.geolocation.watchPosition(getWeatherData)
+navigator.geolocation.getCurrentPosition(getWeatherData)
 
 function renderWeather (response) {
     const city = response.location.name
@@ -139,10 +136,11 @@ function renderWeather (response) {
     `
 }
 
-function renderCurrentTime (latitude, longitude) {
-    fetch(`http://api.timezonedb.com/v2.1/get-time-zone?key=FB9X38BQ1RT7&format=json&by=position&lat=${latitude}&lng=${longitude}`, { mode: 'cors' })
-        .then(response => response.json())
-        .then(getCurrentDate)
+async function renderCurrentTime (lat, lon) {
+    const response = await fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=FB9X38BQ1RT7&format=json&by=position&lat=${lat}&lng=${lon}`, 
+    { mode: 'cors' })
+    const json = await response.json()
+    getCurrentDate(json)
 }
 
 function getCurrentDate (response) {
@@ -190,7 +188,11 @@ async function searchCity (event) {
         weatherInfo.innerHTML = ''
         footerContent.classList.remove('absolute', 'bottom-0', 'left-0', 'right-0')
         renderWeather(json)
-        console.log(json)
+
+        const lat = json.location.lat
+        const lon = json.location.lon
+        renderCurrentTime(lat, lon)
+
     } else {
         weatherInfo.innerHTML = `
             <h1 class="mt-24 text-gray-200 text-3xl text-center">
@@ -200,6 +202,7 @@ async function searchCity (event) {
         `
         footerContent.classList.add('absolute', 'bottom-0', 'left-0','right-0')
     }
+
     searchForm.reset()
 }
 
