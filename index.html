@@ -14,26 +14,93 @@
     <link rel="manifest" href="./site.webmanifest">
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </head>
-<body class="bg-zinc-900">
-    <main id="main-content" class="text-gray-200">
-        <div class="flex items-center gap-x-4 py-3 px-6 fixed top-0 w-full bg-zinc-800">
-            <i class="fi fi-rr-menu-burger grid text-3xl cursor-pointer"></i>
-            
-            <form action="#" id="search-form" class="w-full flex justify-center items-center bg-gray-100 max-w-lg mx-auto rounded-full p-1 px-3 pr-4">
-                <input type="search" id="search-input" class="w-full p-2 outline-0 bg-transparent text-gray-800 tracking-wide">
+<body class="bg-zinc-950">
+    <header id="header-content"
+        class="
+            flex 
+            items-center 
+            gap-x-4 
+            py-3 
+            px-6 
+            fixed 
+            top-0 
+            w-full 
+            bg-zinc-800 
+            text-gray-200 
+            z-10 
+            shadow-md"
+            >
+        <i class="fi fi-rr-menu-burger grid text-3xl cursor-pointer" id="burger-menu"></i>
+        
+        <form action="#" id="search-form" 
+            class="
+                w-full 
+                flex 
+                justify-center 
+                items-center 
+                bg-gray-100 
+                max-w-lg 
+                mx-auto 
+                rounded-full 
+                p-1 
+                px-3 
+                pr-4"
+                >
+            <input type="search" id="search-input" class="w-full p-2 outline-0 bg-transparent text-gray-800 tracking-wide">
 
-                <button type="submit">
-                    <i class="fi fi-br-search flex text-2xl text-gray-700"></i>
-                </button>
-            </form>
+            <button type="submit">
+                <i class="fi fi-br-search flex text-2xl text-gray-700"></i>
+            </button>
+        </form>
 
-            <i class="fi fi-rr-circle-user grid text-3xl cursor-pointer"></i>
-        </div>
+        <i class="fi fi-rr-circle-user grid text-3xl cursor-pointer"></i>
+    </header>
 
+    <aside id="aside-content" 
+    class="
+        w-80 h-screen 
+        p-5 pt-24 
+        text-gray-200 
+        fixed left-0 top-0 
+        flex flex-col items-center gap-3 
+        bg-zinc-900 
+        transition-all 
+        duration-150 
+        ease-linear 
+        [&>*]:rounded-xl 
+        [&>*]:bg-zinc-800 
+        [&>*]:p-2 
+        [&>*]:w-full 
+        [&>*]:transition-all 
+        [&>*]:duration-200 
+        [&>*]:ease-linear
+        [&>*]:cursor-pointer"
+        >
+        <p class="flex justify-center hover:bg-zinc-700">
+            Today
+        </p>
+
+        <p class="flex justify-center hover:bg-zinc-700">
+            Forecast
+        </p>
+    </aside>
+
+    <main id="main-content" class="text-gray-200 ml-80 transition-all duration-150 ease-linear">
         <div id="weather-info"></div>
     </main>
 
-    <footer class="flex justify-around text-gray-200 bg-gray-950 p-10">
+    <footer id="footer-content" 
+        class="
+            flex 
+            justify-around 
+            text-gray-200 
+            bg-gray-900 
+            p-10 
+            ml-80
+            transition-all
+            duration-150
+            ease-linear"
+            >
         <p>
             Powered by <a href="https://www.weatherapi.com" target="_blank" class="text-amber-100 hover:text-amber-200">Weatherapi.com</a>
         </p>
