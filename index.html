@@ -9,6 +9,7 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css'>
 
     <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
@@ -16,7 +17,7 @@
     <link rel="manifest" href="./site.webmanifest">
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </head>
-<body class="bg-zinc-950">
+<body class="bg-neutral-950">
     <header id="header-content"
         class="
             flex 
@@ -32,7 +33,7 @@
             z-10 
             shadow-md"
             >
-        <i class="fi fi-rr-menu-burger grid text-3xl cursor-pointer" id="burger-menu"></i>
+        <i id="burger-menu" class="fi fi-rr-menu-burger grid text-3xl cursor-pointer"></i>
         
         <form action="#" id="search-form" 
             class="
@@ -59,35 +60,142 @@
     </header>
 
     <aside id="aside-content" 
-    class="
-        w-80 h-screen 
-        p-5 pt-24 
-        text-gray-200 
-        fixed left-0 top-0 
-        flex flex-col items-center gap-3 
-        bg-zinc-900 
-        transition-all 
-        duration-200
-        ease-linear 
-        [&>*]:rounded-xl 
-        [&>*]:bg-zinc-800 
-        [&>*]:p-2 
-        [&>*]:w-full 
-        [&>*]:transition-all 
-        [&>*]:duration-200 
-        [&>*]:ease-linear
-        [&>*]:cursor-pointer"
-        >
-        <p class="flex justify-center hover:bg-zinc-700">
-            Today
+        class="
+            w-80 
+            h-screen 
+            p-5 
+            pt-24 
+            text-gray-200 
+            fixed left-0 top-0 
+            flex 
+            flex-col 
+            items-center 
+            gap-1.5
+            bg-zinc-900 
+            transition-all 
+            duration-150
+            ease-linear 
+            select-none
+            [&>*]:w-full 
+            [&>*]:transition-all [&>*]:duration-200 [&>*]:ease-linear
+            [&>*]:cursor-pointer"
+            >
+        <div id="current-el"
+            class="
+                p-1.5 
+                rounded-lg 
+                flex 
+                justify-between 
+                items-center 
+                hover:bg-zinc-700"
+                >
+            <span class="flex items-center gap-2">
+                <i class="fi fi-rr-calendar-clock flex"></i>
+                Current
+            </span>
+            <span>
+                <i class="fi fi-rr-caret-down down-arrow-one flex"></i>
+            </span>
+        </div>
+
+        <div id="current-el-child"
+            class="
+                h-28
+                flex 
+                flex-col
+                gap-3 
+                overflow-hidden 
+                transition-all duration-200 ease-linear
+                [&>*]:transition-all [&>*]:duration-200 [&>*]:ease-linear"
+                >
+            <p id="today-el"
+                class="
+                    p-2
+                    flex
+                    justify-center
+                    hover:bg-zinc-700
+                    rounded-xl
+                    bg-zinc-800"
+                    >
+                Today
+            </p>
+
+            <p id="hourly-el"
+                class="
+                    p-2
+                    flex
+                    justify-center
+                    hover:bg-zinc-700
+                    rounded-xl
+                    bg-zinc-800"
+                    >
+                Hourly
+            </p>
+        </div>
+
+        <p id="more-options-el"
+            class="
+                mt-8 
+                p-1.5 
+                rounded-lg 
+                flex 
+                justify-between 
+                items-center 
+                hover:bg-zinc-700"
+                >
+            <span class="flex items-center gap-2">
+                <i class="fi fi-rs-circle-ellipsis flex"></i>
+                More Options
+            </span>
+            <span>
+                <i class="fi fi-rr-caret-down down-arrow-two flex"></i>
+            </span>
         </p>
 
-        <p class="flex justify-center hover:bg-zinc-700">
-            Forecast
-        </p>
+        <div 
+            class="
+                h-28
+                flex 
+                flex-col
+                gap-3 
+                overflow-hidden 
+                transition-all duration-200 ease-linear
+                [&>*]:transition-all [&>*]:duration-200 [&>*]:ease-linear"
+                >
+            <p id="forecast-el"
+                class="
+                    p-2
+                    flex
+                    justify-center
+                    hover:bg-zinc-700
+                    rounded-xl
+                    bg-zinc-800"
+                    >
+                Forecast
+            </p>
+
+            <p id="history-el"
+                class="
+                    p-2
+                    flex
+                    justify-center
+                    hover:bg-zinc-700
+                    rounded-xl
+                    bg-zinc-800"
+                    >
+                History
+            </p>
+        </div>
     </aside>
 
-    <main id="main-content" class="text-gray-200 ml-80 transition-all duration-200 ease-linear">
+    <main id="main-content" 
+        class="
+            text-gray-200 
+            ml-80 
+            transition-all 
+            duration-150
+            ease-linear"
+            >
         <div id="weather-info"></div>
     </main>
 
@@ -96,11 +204,11 @@
             flex 
             justify-around 
             text-gray-200 
-            bg-gray-900 
+            bg-zinc-800 
             p-10 
             ml-80
             transition-all
-            duration-200
+            duration-150
             ease-linear"
             >
         <p>
@@ -112,6 +220,6 @@
         </p>
     </footer>
 
-    <script src="./main.js"></script>
+    <script src="./bundle.js"></script>
 </body>
 </html>
