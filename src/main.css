@@ -14,18 +14,22 @@
     transform: translate(-100%);
 }
 
+.margin-left-80 {
+    margin-left: 20rem;
+}
+
 .translate-top {
     transform: translateY(-300%);
 }
 
-.margin-top-none {
-    margin-top: 0 !important;
+.translate-down {
+    transform: translateY(0%);
 }
 
 .margin-left-none {
-    margin-left: 0 !important;
+    margin-left: 0;
 }
 
-.height-none {
-    height: 0 !important;
+.height-28 {
+    height: 7rem;
 }
