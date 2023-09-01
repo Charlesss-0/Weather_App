@@ -20,6 +20,7 @@
 <body class="bg-neutral-950">
     <header id="header-content"
         class="
+            background-zinc-800
             flex 
             items-center 
             gap-x-4 
@@ -28,10 +29,10 @@
             fixed 
             top-0 
             w-full 
-            bg-zinc-800 
             text-gray-200 
             z-10 
-            shadow-md"
+            shadow-md
+            backdrop-blur"
             >
         <i id="burger-menu" class="fi fi-rr-menu-burger grid text-3xl cursor-pointer"></i>
         
@@ -49,7 +50,7 @@
                 px-3 
                 pr-4"
                 >
-            <input type="search" id="search-input" class="w-full p-2 outline-0 bg-transparent text-gray-800 tracking-wide">
+            <input type="search" id="search-input" placeholder="Search City or Country" class="w-full p-2 outline-0 bg-transparent text-gray-800 tracking-wide shadow-inner">
 
             <button type="submit">
                 <i class="fi fi-br-search flex text-2xl text-gray-700"></i>
@@ -62,7 +63,7 @@
     <aside id="aside-content" 
         class="
             w-80 
-            h-screen 
+            h-full
             p-5 
             pt-24 
             text-gray-200 
@@ -77,6 +78,7 @@
             ease-linear 
             select-none
             translate-left
+            overflow-auto
             [&>*]:w-full 
             [&>*]:transition-all [&>*]:duration-200 [&>*]:ease-linear
             [&>*]:cursor-pointer"
@@ -109,7 +111,7 @@
                 transition-all duration-200 ease-linear
                 [&>*]:transition-all [&>*]:duration-200 [&>*]:ease-linear"
                 >
-            <p id="today-el"
+            <p id="now-el"
                 class="
                     p-2
                     flex
@@ -119,7 +121,7 @@
                     bg-zinc-800
                     translate-top"
                     >
-                Today
+                Now
             </p>
 
             <p id="hourly-el"
@@ -193,7 +195,9 @@
     </aside>
 
     <main id="main-content" class="text-gray-200 ml-0">
-        <div id="weather-info"></div>
+        <div id="weather-info" class=""></div>
+
+        <div id="hourly-info" class="flex flex-col gap-4"></div>
     </main>
 
     <footer id="footer-content" 
