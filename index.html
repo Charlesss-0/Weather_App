@@ -76,6 +76,7 @@
             duration-150
             ease-linear 
             select-none
+            translate-left
             [&>*]:w-full 
             [&>*]:transition-all [&>*]:duration-200 [&>*]:ease-linear
             [&>*]:cursor-pointer"
@@ -98,9 +99,9 @@
             </span>
         </div>
 
-        <div id="current-el-child"
+        <div id="to-hour"
             class="
-                h-28
+                h-0
                 flex 
                 flex-col
                 gap-3 
@@ -115,7 +116,8 @@
                     justify-center
                     hover:bg-zinc-700
                     rounded-xl
-                    bg-zinc-800"
+                    bg-zinc-800
+                    translate-top"
                     >
                 Today
             </p>
@@ -127,7 +129,8 @@
                     justify-center
                     hover:bg-zinc-700
                     rounded-xl
-                    bg-zinc-800"
+                    bg-zinc-800
+                    translate-top"
                     >
                 Hourly
             </p>
@@ -135,7 +138,6 @@
 
         <p id="more-options-el"
             class="
-                mt-8 
                 p-1.5 
                 rounded-lg 
                 flex 
@@ -152,9 +154,9 @@
             </span>
         </p>
 
-        <div 
+        <div id="fore-his"
             class="
-                h-28
+                h-0
                 flex 
                 flex-col
                 gap-3 
@@ -169,7 +171,8 @@
                     justify-center
                     hover:bg-zinc-700
                     rounded-xl
-                    bg-zinc-800"
+                    bg-zinc-800
+                    translate-top"
                     >
                 Forecast
             </p>
@@ -181,21 +184,15 @@
                     justify-center
                     hover:bg-zinc-700
                     rounded-xl
-                    bg-zinc-800"
+                    bg-zinc-800
+                    translate-top"
                     >
                 History
             </p>
         </div>
     </aside>
 
-    <main id="main-content" 
-        class="
-            text-gray-200 
-            ml-80 
-            transition-all 
-            duration-150
-            ease-linear"
-            >
+    <main id="main-content" class="text-gray-200 ml-0">
         <div id="weather-info"></div>
     </main>
 
@@ -206,10 +203,7 @@
             text-gray-200 
             bg-zinc-800 
             p-10 
-            ml-80
-            transition-all
-            duration-150
-            ease-linear"
+            ml-0"
             >
         <p>
             Powered by <a href="https://www.weatherapi.com" target="_blank" class="text-amber-100 hover:text-amber-200">Weatherapi.com</a>
