@@ -7,7 +7,7 @@ export function renderUi () {
     const toHourEl = document.getElementById('to-hour')
     const moreOptionsEl = document.getElementById('more-options-el')
     const foreHisEl = document.getElementById('fore-his')
-    const todayEl = document.getElementById('today-el')
+    const nowEl = document.getElementById('now-el')
     const hourlyEl = document.getElementById('hourly-el')
     const forecastEl = document.getElementById('forecast-el')
     const historyEl = document.getElementById('history-el')
@@ -21,7 +21,7 @@ export function renderUi () {
 
     currentEl.addEventListener('click', hideCurrentContent)
     function hideCurrentContent () {
-        todayEl.classList.toggle('translate-down')
+        nowEl.classList.toggle('translate-down')
         hourlyEl.classList.toggle('translate-down')
         moreOptionsEl.classList.toggle('mt-8')
         toHourEl.classList.toggle('height-28')
@@ -59,26 +59,48 @@ export function renderUi () {
     }
 
     function bodyBackground () {
-        async function getWeatherData (position) {
-            const body = document.querySelector('body')
-            const lat = position.coords.latitude
-            const lon = position.coords.longitude
-    
-            const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${lat},${lon}&days=05`,
+        const body = document.querySelector('body')
+        const searchForm = document.getElementById('search-form')
+
+        const sunny = 'Sunny'
+        const rainny = 'rain'
+        const cloudy = 'cloudy'
+        const overcast = 'Overcast'
+        const mist = 'Mist'
+        const clear = 'Clear'
+
+        async function searchCity () {    
+            const searchInput = document.getElementById('search-input')
+            const input = searchInput.value
+
+            const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${input}&days=05`, 
             { mode: 'cors' })
             const json = await response.json()
             const textCondition = json.current.condition.text
-
-            const sunny = 'sunny'
-            const cloudy = 'cloudy'
-
+            
             if (textCondition.includes(cloudy)) {
-                body.classList.add('bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
+                body.className = ''
+                body.classList.add('cloudy-gradient')
+
+            } else if (textCondition.includes(sunny)) {
+                body.className = ''
+                body.classList.add('sunny-gradient')
+
+            } else if (textCondition.includes(rainny)) {
+                body.className = ''
+                body.classList.add('rainny-gradient')
+
+            } else if (textCondition.includes(overcast)) {
+                body.className = ''
+                body.classList.add('overcast')
+
+            } else if (textCondition.includes(mist)) {
+                body.className = ''
+                body.classList.add('mist-gradient')
             }
         }
-        const geolocation = navigator.geolocation.getCurrentPosition(getWeatherData)
+        searchForm.addEventListener('submit', searchCity)
 
     }
-
     bodyBackground()
 }

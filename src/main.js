@@ -1,10 +1,19 @@
 import { format, parseISO } from "date-fns"
 
 export function renderCurrentWeather () {
+    const body = document.querySelector('body')
     const weatherInfo = document.getElementById('weather-info')
+    const hourlyInfoEl = document.getElementById('hourly-info')
     const footerContent = document.getElementById('footer-content')
     const searchForm = document.getElementById('search-form')
     const searchInput = document.getElementById('search-input')
+
+    const sunny = 'sunny'
+    const rainny = 'rain'
+    const cloudy = 'cloudy'
+    const overcast = 'overcast'
+    const mist = 'mist'
+    const clear = 'Clear'
 
     async function getWeatherData (position) {
         const lat = position.coords.latitude
@@ -15,7 +24,28 @@ export function renderCurrentWeather () {
         const json = await response.json()
         renderWeather(json)
         renderCurrentTime(lat, lon)
-        console.log(json)
+        const textCondition = json.current.condition.text
+
+        if (textCondition.includes(cloudy)) {
+            body.className = ''
+            body.classList.add('cloudy-gradient')
+
+        } else if (textCondition.includes(sunny)) {
+            body.className = ''
+            body.classList.add('sunny-gradient')
+
+        } else if (textCondition.includes(rainny)) {
+            body.className = ''
+            body.classList.add('rainny-gradient')
+
+        } else if (textCondition.includes(overcast)) {
+            body.className = ''
+            body.classList.add('overcast')
+
+        } else if (textCondition.includes(mist)) {
+            body.className = ''
+            body.classList.add('mist-gradient')
+        }
     }
 
     navigator.geolocation.getCurrentPosition(getWeatherData)
@@ -50,6 +80,7 @@ export function renderCurrentWeather () {
         const minTempDayThree = Math.floor(response.forecast.forecastday[3].day.mintemp_c)
         const maxTempDayThree = Math.floor(response.forecast.forecastday[3].day.maxtemp_c)
 
+        hourlyInfoEl.innerHTML = ''
         weatherInfo.innerHTML = `
             <div 
                 class="
@@ -87,7 +118,7 @@ export function renderCurrentWeather () {
                         justify-items-center 
                         gap-y-2"
                         >
-                    <img src="${iconCondition}" class="w-12">
+                    <img src="${iconCondition}" class="w-14">
 
                     <h1 class="text-5xl font-semibold">
                         ${feelslike}°C
@@ -117,7 +148,8 @@ export function renderCurrentWeather () {
                     <div 
                         class="
                             flex 
-                            justify-evenly"
+                            justify-evenly
+                            items-center"
                             >
                         <p>
                             ${dayNameOne}
@@ -137,7 +169,8 @@ export function renderCurrentWeather () {
                     <div 
                         class="
                             flex
-                            justify-evenly"
+                            justify-evenly
+                            items-center"
                             >
                         <p>
                         ${dayNameTwo}
@@ -157,7 +190,8 @@ export function renderCurrentWeather () {
                     <div 
                         class="
                             flex 
-                            justify-evenly"
+                            justify-evenly
+                            items-center"
                             >
                         <p>
                             ${dayNameThree}
