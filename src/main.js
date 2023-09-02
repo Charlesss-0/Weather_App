@@ -56,29 +56,35 @@ export function renderCurrentWeather () {
         const country = response.location.country
         const textCondition = response.current.condition.text
         const iconCondition = response.current.condition.icon
-        const feelslike = Math.floor(response.current.temp_c)
-        const wind =  Math.floor(response.current.wind_kph)
+        const feelslike = parseInt(response.current.temp_c)
+        const wind =  parseInt(response.current.wind_kph)
 
-        const dayOneIcon = response.forecast.forecastday[1].day.condition.icon
-        const dayTwoIcon = response.forecast.forecastday[2].day.condition.icon
-        const dayThreeIcon = response.forecast.forecastday[3].day.condition.icon
-
-        const dateOne = parseISO(response.forecast.forecastday[1].date)
-        const dateTwo = parseISO(response.forecast.forecastday[2].date)
-        const dateThree = parseISO(response.forecast.forecastday[3].date)
+        const dateOne = parseISO(response.forecast.forecastday[0].date)
+        const dateTwo = parseISO(response.forecast.forecastday[1].date)
+        const dateThree = parseISO(response.forecast.forecastday[2].date)
+        const dateFour = parseISO(response.forecast.forecastday[3].date)
 
         const dayNameOne = format(dateOne, 'EEEE, MMM dd')
         const dayNameTwo = format(dateTwo, 'EEEE, MMM dd')
         const dayNameThree = format(dateThree, 'EEEE, MMM dd')
+        const dayNameFour = format(dateFour, 'EEEE, MMM dd')
 
-        const minTempDayOne = Math.floor(response.forecast.forecastday[1].day.mintemp_c)
-        const maxTempDayOne = Math.floor(response.forecast.forecastday[1].day.maxtemp_c)
+        const dayOneIcon = response.forecast.forecastday[0].day.condition.icon
+        const dayTwoIcon = response.forecast.forecastday[1].day.condition.icon
+        const dayThreeIcon = response.forecast.forecastday[2].day.condition.icon
+        const dayFourIcon = response.forecast.forecastday[3].day.condition.icon
 
-        const minTempDayTwo = Math.floor(response.forecast.forecastday[2].day.mintemp_c)
-        const maxTempDayTwo = Math.floor(response.forecast.forecastday[2].day.maxtemp_c)
+        const minTempDayOne = parseInt(response.forecast.forecastday[0].day.mintemp_c)
+        const maxTempDayOne = parseInt(response.forecast.forecastday[0].day.maxtemp_c)
 
-        const minTempDayThree = Math.floor(response.forecast.forecastday[3].day.mintemp_c)
-        const maxTempDayThree = Math.floor(response.forecast.forecastday[3].day.maxtemp_c)
+        const minTempDayTwo = parseInt(response.forecast.forecastday[1].day.mintemp_c)
+        const maxTempDayTwo = parseInt(response.forecast.forecastday[1].day.maxtemp_c)
+
+        const minTempDayThree = parseInt(response.forecast.forecastday[2].day.mintemp_c)
+        const maxTempDayThree = parseInt(response.forecast.forecastday[2].day.maxtemp_c)
+
+        const minTempDayFour = parseInt(response.forecast.forecastday[3].day.mintemp_c)
+        const maxTempDayFour = parseInt(response.forecast.forecastday[3].day.maxtemp_c)
 
         hourlyInfoEl.innerHTML = ''
         weatherInfo.innerHTML = `
@@ -138,19 +144,15 @@ export function renderCurrentWeather () {
 
                 <div 
                     class="
-                        w-full 
+                        max-w-5xl
                         p-3 
                         flex 
                         flex-col 
                         gap-3 
+                        m-auto
                         mt-10"
                         >
-                    <div 
-                        class="
-                            flex 
-                            justify-evenly
-                            items-center"
-                            >
+                    <div class="flex justify-between items-center custom-gap-4vw">
                         <p>
                             ${dayNameOne}
                         </p>
@@ -158,20 +160,15 @@ export function renderCurrentWeather () {
                         <img src="${dayOneIcon}" class="w-12">
 
                         <p>
-                            min (${minTempDayOne}°C)
+                            Day (${minTempDayOne}°C)
                         </p>
 
                         <p>
-                            max (${maxTempDayOne}°C)
+                            Night (${maxTempDayOne}°C)
                         </p>
                     </div>
 
-                    <div 
-                        class="
-                            flex
-                            justify-evenly
-                            items-center"
-                            >
+                    <div class="flex justify-between items-center">
                         <p>
                         ${dayNameTwo}
                         </p>
@@ -179,20 +176,15 @@ export function renderCurrentWeather () {
                         <img src="${dayTwoIcon}" class="w-12">
 
                         <p>
-                            min (${minTempDayTwo}°C)
+                            Day (${minTempDayTwo}°C)
                         </p>
 
                         <p>
-                            max (${maxTempDayTwo}°C)
+                            Night (${maxTempDayTwo}°C)
                         </p>
                     </div>
 
-                    <div 
-                        class="
-                            flex 
-                            justify-evenly
-                            items-center"
-                            >
+                    <div class="flex justify-between items-center">
                         <p>
                             ${dayNameThree}
                         </p>
@@ -200,11 +192,27 @@ export function renderCurrentWeather () {
                         <img src="${dayThreeIcon}" class="w-12">
 
                         <p>
-                            min (${minTempDayThree}°C)
+                            Day (${minTempDayThree}°C)
                         </p>
 
                         <p>
-                            max (${maxTempDayThree}°C)
+                            Night (${maxTempDayThree}°C)
+                        </p>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <p>
+                            ${dayNameFour}
+                        </p>
+
+                        <img src="${dayFourIcon}" class="w-12">
+
+                        <p>
+                            Day (${minTempDayFour}°C)
+                        </p>
+
+                        <p>
+                            Night (${maxTempDayFour}°C)
                         </p>
                     </div>
                 </div>

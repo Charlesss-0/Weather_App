@@ -22,12 +22,20 @@
     transform: translateY(-300%);
 }
 
+.translate-top-100 {
+    transform: translateY(-100%);
+}
+
 .translate-down {
     transform: translateY(0%);
 }
 
 .margin-left-none {
     margin-left: 0;
+}
+
+.height-none {
+    height: 0;
 }
 
 .height-28 {
@@ -68,4 +76,17 @@
 
 .border-sol {
     border: 2px solid white;
+}
+
+.custom-gap-5vw {
+    gap: 5vw;
+}
+
+.custom-gap-4vw {
+    gap: 4vw;
+}
+
+.show-content {
+    height: 10rem;
+    padding: 1rem;
 }

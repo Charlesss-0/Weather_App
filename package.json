@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "watch": "webpack --watch",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "tailwind": "tailwindcss -i ./src/main.css -o ./dist/styles.css --watch"
   },
   "keywords": [],
   "author": "",
