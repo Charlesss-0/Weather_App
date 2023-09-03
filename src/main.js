@@ -56,8 +56,10 @@ export function renderCurrentWeather () {
         const country = response.location.country
         const textCondition = response.current.condition.text
         const iconCondition = response.current.condition.icon
-        const feelslike = parseInt(response.current.temp_c)
+        const tempC = parseInt(response.current.temp_c)
+        const feelslikeC = parseInt(response.current.feelslike_c)
         const wind =  parseInt(response.current.wind_kph)
+        const windDir = response.current.wind_dir
 
         const dateOne = parseISO(response.forecast.forecastday[0].date)
         const dateTwo = parseISO(response.forecast.forecastday[1].date)
@@ -126,9 +128,19 @@ export function renderCurrentWeather () {
                         >
                     <img src="${iconCondition}" class="w-14">
 
-                    <h1 class="text-5xl font-semibold">
-                        ${feelslike}°C
-                    </h1>
+                    <div class="grid gap-2">
+                        <p class="text-5xl text-center font-semibold">
+                            ${tempC}°C
+                        </p>
+
+                        <div class="text-lg flex items-center gap-3">
+                            <i class="fi fi-rr-temperature-high"></i>
+                            <p>
+                                Feels Like<br>
+                                ${feelslikeC}°C
+                            </p>
+                        </div>
+                    </div>
 
                     <p class="text-3xl font-medium my-10">
                         ${textCondition}
@@ -137,7 +149,7 @@ export function renderCurrentWeather () {
                     <p class="text-2xl grid gap-2 justify-items-center">
                         Wind<br>
                         <span class="text-lg flex items-center gap-3">
-                            <i class="fi fi-rr-wind grid"></i>${wind} km/h
+                            <i class="fi fi-rr-wind grid"></i>${windDir} ${wind} km/h
                         </span>
                     </p>
                 </div>
@@ -160,11 +172,11 @@ export function renderCurrentWeather () {
                         <img src="${dayOneIcon}" class="w-12">
 
                         <p>
-                            Day (${minTempDayOne}°C)
+                            Min (${minTempDayOne}°C)
                         </p>
 
                         <p>
-                            Night (${maxTempDayOne}°C)
+                            Max (${maxTempDayOne}°C)
                         </p>
                     </div>
 
@@ -176,11 +188,11 @@ export function renderCurrentWeather () {
                         <img src="${dayTwoIcon}" class="w-12">
 
                         <p>
-                            Day (${minTempDayTwo}°C)
+                            Min (${minTempDayTwo}°C)
                         </p>
 
                         <p>
-                            Night (${maxTempDayTwo}°C)
+                            Max (${maxTempDayTwo}°C)
                         </p>
                     </div>
 
@@ -192,11 +204,11 @@ export function renderCurrentWeather () {
                         <img src="${dayThreeIcon}" class="w-12">
 
                         <p>
-                            Day (${minTempDayThree}°C)
+                            Min (${minTempDayThree}°C)
                         </p>
 
                         <p>
-                            Night (${maxTempDayThree}°C)
+                            Max (${maxTempDayThree}°C)
                         </p>
                     </div>
 
@@ -208,11 +220,11 @@ export function renderCurrentWeather () {
                         <img src="${dayFourIcon}" class="w-12">
 
                         <p>
-                            Day (${minTempDayFour}°C)
+                            Min (${minTempDayFour}°C)
                         </p>
 
                         <p>
-                            Night (${maxTempDayFour}°C)
+                            Max (${maxTempDayFour}°C)
                         </p>
                     </div>
                 </div>

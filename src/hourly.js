@@ -2,34 +2,74 @@ import { format, parseISO } from "date-fns"
 
 export function renderHourly () {
     const body = document.querySelector('body')
+    const searchForm = document.getElementById('search-form')
+    const searchInput = document.getElementById('search-input')
     const weatherInfo = document.getElementById('weather-info')
     const hourlyInfoEl = document.getElementById('hourly-info')
 
-    async function getWeatherData (position) {
+    async function getPosition (position) {
         const lat = position.coords.latitude
         const lon = position.coords.longitude
 
         const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${lat},${lon}&days=05`,
         { mode: 'cors' })
         const json = await response.json()
-        const dayOne = json.forecast.forecastday[0].hour
-        dayOne.forEach((e) => {
-            const currentDate = parseISO(e.time)
-            const textCondition = e.condition.text
-            const iconCondition = e.condition.icon
-            const tempC = parseInt(e.temp_c)
-            const feelslikeC = parseInt(e.feelslike_c)
-            const windKph = parseInt(e.wind_kph)
-            const windDir = e.wind_dir
-            const humidity = e.humidity
-            const uv = e.uv
-            const cloudCover = e.cloud
-            const dewPoint = parseInt(e.dewpoint_c)
 
-            const replaceWindDir = windDir.replace(/NNE/g, 'NE')
+        renderHero(json)
+        getWeatherData(json)
+
+        searchForm.addEventListener('submit', searchCity)
+
+        async function searchCity (event) {
+            event.preventDefault()
+
+            const input = searchInput.value
+            const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${input}&days=05`,
+            { mode: 'cors' })
+            const json = await response.json()
+
+            renderHero(json)
+            getWeatherData(json)
+
+            searchForm.reset()
+        }
+    }
+
+    function renderHero (data) {
+        const city = data.location.name
+        const country = data.location.country
+        const currentDate = parseISO(data.location.localtime)
+
+        const formattedDate = format(currentDate, 'EEEE, MMM dd')
+        
+        removeBackground()
+        hourlyInfoEl.innerHTML += `
+            <h1 class="mt-20 text-2xl">
+                Hourly Weather - <span class="text-lg">${city}, ${country}</span>
+            </h1>
+
+            <h1 class="text-xl">
+                ${formattedDate}
+            </h1>
+        `
+    }
+
+    function getWeatherData (info) {
+        const dayOne = info.forecast.forecastday[0].hour
+        dayOne.forEach((data) => {
+            const currentDate = parseISO(data.time)
+            const textCondition = data.condition.text
+            const iconCondition = data.condition.icon
+            const tempC = parseInt(data.temp_c)
+            const feelslikeC = parseInt(data.feelslike_c)
+            const windKph = parseInt(data.wind_kph)
+            const windDir = data.wind_dir
+            const humidity = data.humidity
+            const uv = data.uv
+            const cloudCover = data.cloud
+            const dewPoint = parseInt(data.dewpoint_c)
 
             const dateTime = new Date(currentDate)
-            const formattedDate = format(dateTime, 'EEEE, MMM dd')
             const formattedTime = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
             const weatherData = `
@@ -71,7 +111,7 @@ export function renderHourly () {
                                 <i class="fi fi-rr-wind grid"></i>
                             
                                 <span>
-                                    ${replaceWindDir} ${windKph} km/h
+                                    ${windDir} ${windKph} km/h
                                 </span>
                             </div>
                         </div>
@@ -109,7 +149,7 @@ export function renderHourly () {
                                 <i class="fi fi-rr-wind grid"></i>
                                 <p>
                                     Wind<br>
-                                    ${replaceWindDir} ${windKph} km/h
+                                    ${windDir} ${windKph} km/h
                                 </p>
                             </div>
 
@@ -150,41 +190,46 @@ export function renderHourly () {
                     </div>
                 </div>
             `
-            const divContainer = document.createElement('div')
-            divContainer.classList.add('margin-top-first', 'w-full', 'px-5', 'py-1', 'flex', 'flex-col', 'items-center', 'justify-center', 'max-w-5xl', 'bg-zinc-900', 'rounded-lg', 'transition-all', 'duration-200', 'ease-linear')
-            divContainer.innerHTML = weatherData
+            const div = document.createElement('div')
+            div.classList.add('w-full', 'px-5', 'py-1', 'flex', 'flex-col', 'items-center', 'justify-center', 'max-w-5xl', 'bg-zinc-900', 'rounded-lg', 'transition-all', 'duration-200', 'ease-linear')
+            div.innerHTML = weatherData
 
             removeBackground()
-            hourlyInfoEl.appendChild(divContainer)
+            hourlyInfoEl.append(div)
 
-            const cardHeader = divContainer.querySelector('.card-header')
-            const cardContentContainter = divContainer.querySelector('.card-content-container')
-            const cardContent = divContainer.querySelector('.card-content')
-            const arrowEl = divContainer.querySelector('.arrow-el')
-
-            cardHeader.addEventListener('click', toggleClass)
-
-            function toggleClass () {
-                cardContentContainter.classList.toggle('show-content')
-                cardContent.classList.toggle('translate-down')
-
-                divContainer.classList.toggle('pb-4')
-
-                const down = 'fi-rr-caret-down'
-                const up = 'fi-rr-caret-up'
-
-                if (arrowEl.classList.contains(up)) {
-                    arrowEl.classList.remove(up)
-                    arrowEl.classList.add(down)
-
-                } else if (arrowEl.classList.contains(down)) {
-                    arrowEl.classList.remove(down)
-                    arrowEl.classList.add(up)
-                }
-            }
+            addClickEvent(div)
         })
     }
-    navigator.geolocation.getCurrentPosition(getWeatherData)
+    
+    navigator.geolocation.getCurrentPosition(getPosition)
+
+    function addClickEvent (div) {
+        const cardHeader = div.querySelector('.card-header')
+        const cardContentContainter = div.querySelector('.card-content-container')
+        const cardContent = div.querySelector('.card-content')
+        const arrowEl = div.querySelector('.arrow-el')
+
+        cardHeader.addEventListener('click', toggleClass)
+
+        function toggleClass () {
+            cardContentContainter.classList.toggle('show-content')
+            cardContent.classList.toggle('translate-down')
+
+            div.classList.toggle('pb-4')
+
+            const down = 'fi-rr-caret-down'
+            const up = 'fi-rr-caret-up'
+
+            if (arrowEl.classList.contains(up)) {
+                arrowEl.classList.remove(up)
+                arrowEl.classList.add(down)
+
+            } else if (arrowEl.classList.contains(down)) {
+                arrowEl.classList.remove(down)
+                arrowEl.classList.add(up)
+            }
+        }
+    }
 
     function removeBackground () {
         weatherInfo.innerHTML = ''
@@ -192,3 +237,4 @@ export function renderHourly () {
         body.classList.add('bg-neutral-950')
     }
 }
+
