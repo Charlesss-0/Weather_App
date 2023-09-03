@@ -17,22 +17,6 @@ export function renderHourly () {
 
         renderHero(json)
         getWeatherData(json)
-
-        searchForm.addEventListener('submit', searchCity)
-
-        async function searchCity (event) {
-            event.preventDefault()
-
-            const input = searchInput.value
-            const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${input}&days=05`,
-            { mode: 'cors' })
-            const json = await response.json()
-
-            renderHero(json)
-            getWeatherData(json)
-
-            searchForm.reset()
-        }
     }
 
     function renderHero (data) {

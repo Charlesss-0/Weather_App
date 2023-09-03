@@ -5,8 +5,8 @@ import { renderUi } from "./ui"
 const nowEl = document.getElementById('now-el')
 const hourlyEl = document.getElementById('hourly-el')
 
-// renderCurrentWeather()
-renderHourly()
+renderCurrentWeather()
+// renderHourly()
 renderUi()
 
 nowEl.addEventListener('click', renderCurrentWeather)
