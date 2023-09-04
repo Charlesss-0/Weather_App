@@ -42,32 +42,37 @@
     height: 7rem;
 }
 
-.cloudy-gradient {
-    background: rgb(20,40,77);
-    background: linear-gradient(90deg, rgba(20,40,77,1) 50%, rgba(20,63,89,1) 100%);
+.cloudy {
+    background: #54416d;
 }
 
-.rainny-gradient {
+.rainny {
     background: rgb(28,43,70);
-    background: linear-gradient(90deg, rgba(28,43,70,1) 54%, rgba(25,64,91,1) 100%);
 }
 
-.sunny-gradient {
-    background: rgb(47,124,149);
-    background: linear-gradient(90deg, rgba(47,124,149,1) 54%, rgba(42,139,204,1) 100%);
+.thunder {
+    background: #2b235a;
+}
+
+.sunny {
+    background: #8fe0ff;
 }
 
 .overcast {
     background: rgb(18,30,51);
 }
 
-.mist-gradient {
+.mist {
     background: rgb(59,81,121);
-    background: linear-gradient(90deg, rgba(59,81,121,1) 54%, rgba(50,118,159,1) 100%);
+}
+
+.clear {
+    background: rgb(30,88,107);
+    background: linear-gradient(90deg, rgba(30,88,107,1) 24%, rgba(48,113,157,1) 100%);
 }
 
 .background-zinc-800 {
-    background-color: rgba(39, 39, 42, 0.7);
+    background: rgba(39, 39, 42, 0.7);
 }
 
 .margin-top-first:nth-child(1) {
@@ -89,4 +94,8 @@
 .show-content {
     height: 10rem;
     padding: 1rem;
+}
+
+.custom-gray {
+    background-color: #f3f4f655;
 }

@@ -1,63 +1,4 @@
 export function renderUi () {
-    const burgerMenu = document.getElementById('burger-menu')
-    const asideContent = document.getElementById('aside-content')
-    const mainContent = document.getElementById('main-content')
-    const footerContent = document.getElementById('footer-content')
-    const currentEl = document.getElementById('current-el')
-    const toHourEl = document.getElementById('to-hour')
-    const moreOptionsEl = document.getElementById('more-options-el')
-    const foreHisEl = document.getElementById('fore-his')
-    const nowEl = document.getElementById('now-el')
-    const hourlyEl = document.getElementById('hourly-el')
-    const forecastEl = document.getElementById('forecast-el')
-    const historyEl = document.getElementById('history-el')
-    const downArrowOne = document.querySelector('.down-arrow-one')
-    const downArrowTwo = document.querySelector('.down-arrow-two')
-
-    burgerMenu.addEventListener('click', hideOptions)
-    function hideOptions () {
-        asideContent.classList.toggle('translate-left')
-    }
-
-    currentEl.addEventListener('click', hideCurrentContent)
-    function hideCurrentContent () {
-        nowEl.classList.toggle('translate-down')
-        hourlyEl.classList.toggle('translate-down')
-        moreOptionsEl.classList.toggle('mt-8')
-        toHourEl.classList.toggle('height-28')
-
-        const down = 'fi-rr-caret-down'
-        const up = 'fi-rr-caret-up'
-        
-        if (downArrowOne.classList.contains(down)) {
-            downArrowOne.classList.remove(down)
-            downArrowOne.classList.add(up)
-
-        } else if (downArrowOne.classList.contains(up)) {
-            downArrowOne.classList.remove(up)
-            downArrowOne.classList.add(down)
-        }
-    }
-
-    moreOptionsEl.addEventListener('click', hideMoreOptionsContent)
-    function hideMoreOptionsContent () {
-        forecastEl.classList.toggle('translate-down')
-        historyEl.classList.toggle('translate-down')
-        foreHisEl.classList.toggle('height-28')
-
-        const down = 'fi-rr-caret-down'
-        const up = 'fi-rr-caret-up'
-
-        if (downArrowTwo.classList.contains(down)) {
-            downArrowTwo.classList.remove(down)
-            downArrowTwo.classList.add(up)
-
-        } else if (downArrowTwo.classList.contains(up)) {
-            downArrowTwo.classList.remove(up)
-            downArrowTwo.classList.add(down)
-        }
-    }
-
     function bodyBackground () {
         const body = document.querySelector('body')
         const searchForm = document.getElementById('search-form')
@@ -80,15 +21,15 @@ export function renderUi () {
             
             if (textCondition.includes(cloudy)) {
                 body.className = ''
-                body.classList.add('cloudy-gradient')
+                body.classList.add('cloudy')
 
             } else if (textCondition.includes(sunny)) {
                 body.className = ''
-                body.classList.add('sunny-gradient')
+                body.classList.add('sunny')
 
             } else if (textCondition.includes(rainny)) {
                 body.className = ''
-                body.classList.add('rainny-gradient')
+                body.classList.add('rainny')
 
             } else if (textCondition.includes(overcast)) {
                 body.className = ''
@@ -96,7 +37,10 @@ export function renderUi () {
 
             } else if (textCondition.includes(mist)) {
                 body.className = ''
-                body.classList.add('mist-gradient')
+                body.classList.add('mist')
+            } else if (textCondition.includes(clear)) {
+                body.className = ''
+                body.classList.add('clear')
             }
         }
         searchForm.addEventListener('submit', searchCity)

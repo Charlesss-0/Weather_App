@@ -28,15 +28,15 @@ export function renderCurrentWeather () {
 
         if (textCondition.includes(cloudy)) {
             body.className = ''
-            body.classList.add('cloudy-gradient')
+            body.classList.add('cloudy')
 
         } else if (textCondition.includes(sunny)) {
             body.className = ''
-            body.classList.add('sunny-gradient')
+            body.classList.add('sunny')
 
         } else if (textCondition.includes(rainny)) {
             body.className = ''
-            body.classList.add('rainny-gradient')
+            body.classList.add('rainny')
 
         } else if (textCondition.includes(overcast)) {
             body.className = ''
@@ -44,7 +44,11 @@ export function renderCurrentWeather () {
 
         } else if (textCondition.includes(mist)) {
             body.className = ''
-            body.classList.add('mist-gradient')
+
+            body.classList.add('mist')
+        } else if (textCondition.includes(clear)) {
+            body.className = ''
+            body.classList.add('clear')
         }
     }
 
@@ -66,10 +70,10 @@ export function renderCurrentWeather () {
         const dateThree = parseISO(response.forecast.forecastday[2].date)
         const dateFour = parseISO(response.forecast.forecastday[3].date)
 
-        const dayNameOne = format(dateOne, 'EEEE, MMM dd')
-        const dayNameTwo = format(dateTwo, 'EEEE, MMM dd')
-        const dayNameThree = format(dateThree, 'EEEE, MMM dd')
-        const dayNameFour = format(dateFour, 'EEEE, MMM dd')
+        const dayNameOne = format(dateOne, 'EEEE, MMM d')
+        const dayNameTwo = format(dateTwo, 'EEEE, MMM d')
+        const dayNameThree = format(dateThree, 'EEEE, MMM d')
+        const dayNameFour = format(dateFour, 'EEEE, MMM d')
 
         const dayOneIcon = response.forecast.forecastday[0].day.condition.icon
         const dayTwoIcon = response.forecast.forecastday[1].day.condition.icon
@@ -92,7 +96,7 @@ export function renderCurrentWeather () {
         weatherInfo.innerHTML = `
             <div 
                 class="
-                    mt-20 
+                    mt-32 
                     mx-auto 
                     p-3 
                     h-full 
@@ -246,7 +250,7 @@ export function renderCurrentWeather () {
 
         const dateTime = new Date(dateTimeString)
 
-        const formattedDate = format(dateTime, 'EEEE, MMM dd')
+        const formattedDate = format(dateTime, 'EEEE, MMM d')
         const formattedTime = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
         currentDateEl.innerHTML = `
