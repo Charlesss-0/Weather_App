@@ -21,11 +21,7 @@
     <header id="header-content"
         class="
             background-zinc-800
-            flex 
-            items-center 
-            gap-x-4 
-            py-3 
-            px-6 
+            grid 
             fixed 
             top-0 
             w-full 
@@ -34,166 +30,71 @@
             shadow-md
             backdrop-blur"
             >
-        <i id="burger-menu" class="fi fi-rr-menu-burger grid text-3xl cursor-pointer"></i>
-        
-        <form action="#" id="search-form" 
+        <div class="flex items-center p-4">            
+            <form action="#" id="search-form"
+                class="
+                    w-full
+                    flex
+                    justify-center
+                    items-center
+                    custom-gray
+                    max-w-lg
+                    mx-auto
+                    rounded-full
+                    p-1
+                    px-3
+                    pr-4
+                    shadow-inner"
+                    >
+                <input type="search" id="search-input" placeholder="Search City or Country" 
+                    class="
+                        w-full 
+                        p-1 
+                        outline-0 
+                        bg-transparent 
+                        tracking-wide"
+                        >
+                <button type="submit">
+                    <i class="fi fi-br-search flex text-2xl"></i>
+                </button>
+            </form>
+
+            <i class="fi fi-rr-circle-user grid text-3xl cursor-pointer"></i>
+        </div>
+
+        <div 
             class="
-                w-full 
                 flex 
                 justify-center 
-                items-center 
-                bg-gray-100 
-                max-w-lg 
-                mx-auto 
-                rounded-full 
-                p-1 
-                px-3 
-                pr-4
-                shadow-inner"
+                gap-5 
+                p-2 
+                [&>*]:w-28 
+                [&>*]:rounded-lg 
+                [&>*]:p-1.5 
+                [&>*]:flex 
+                [&>*]:items-center
+                [&>*]:justify-center
+                [&>*]:gap-1.5
+                [&>*]:bg-zinc-200
+                [&>*]:cursor-pointer
+                text-gray-900
+                font-medium"
                 >
-            <input type="search" id="search-input" placeholder="Search City or Country" class="w-full p-2 outline-0 bg-transparent text-gray-800 tracking-wide">
+            <p id="daily-el">
+                <i class="fi fi-rr-calendar-day flex"></i>
+                <span>
+                    Daily
+                </span>
+            </p>
 
-            <button type="submit">
-                <i class="fi fi-br-search flex text-2xl text-gray-700"></i>
-            </button>
-        </form>
-
-        <i class="fi fi-rr-circle-user grid text-3xl cursor-pointer"></i>
+            <p id="hourly-el">
+                <i class="fi fi-rr-clock-three flex"></i>
+                <span>
+                    Hourly
+                </span>
+            </p>
+        </div>
     </header>
-
-    <aside id="aside-content" 
-        class="
-            w-80 
-            h-full
-            p-5 
-            pt-24 
-            text-gray-200 
-            fixed left-0 top-0 
-            flex 
-            flex-col 
-            items-center 
-            gap-1.5
-            bg-zinc-900 
-            transition-all 
-            duration-150
-            ease-linear 
-            select-none
-            translate-left
-            overflow-auto
-            [&>*]:w-full 
-            [&>*]:transition-all [&>*]:duration-200 [&>*]:ease-linear
-            [&>*]:cursor-pointer"
-            >
-        <div id="current-el"
-            class="
-                p-1.5 
-                rounded-lg 
-                flex 
-                justify-between 
-                items-center 
-                hover:bg-zinc-700"
-                >
-            <span class="flex items-center gap-2">
-                <i class="fi fi-rr-calendar-clock flex"></i>
-                Current
-            </span>
-            <span>
-                <i class="fi fi-rr-caret-up down-arrow-one flex"></i>
-            </span>
-        </div>
-
-        <div id="to-hour"
-            class="
-                h-0
-                flex 
-                flex-col
-                gap-3 
-                overflow-hidden 
-                transition-all duration-200 ease-linear
-                [&>*]:transition-all [&>*]:duration-200 [&>*]:ease-linear"
-                >
-            <p id="now-el"
-                class="
-                    p-2
-                    flex
-                    justify-center
-                    hover:bg-zinc-700
-                    rounded-xl
-                    bg-zinc-800
-                    translate-top"
-                    >
-                Now
-            </p>
-
-            <p id="hourly-el"
-                class="
-                    p-2
-                    flex
-                    justify-center
-                    hover:bg-zinc-700
-                    rounded-xl
-                    bg-zinc-800
-                    translate-top"
-                    >
-                Hourly
-            </p>
-        </div>
-
-        <p id="more-options-el"
-            class="
-                p-1.5 
-                rounded-lg 
-                flex 
-                justify-between 
-                items-center 
-                hover:bg-zinc-700"
-                >
-            <span class="flex items-center gap-2">
-                <i class="fi fi-rs-circle-ellipsis flex"></i>
-                More Options
-            </span>
-            <span>
-                <i class="fi fi-rr-caret-up down-arrow-two flex"></i>
-            </span>
-        </p>
-
-        <div id="fore-his"
-            class="
-                h-0
-                flex 
-                flex-col
-                gap-3 
-                overflow-hidden 
-                transition-all duration-200 ease-linear
-                [&>*]:transition-all [&>*]:duration-200 [&>*]:ease-linear"
-                >
-            <p id="forecast-el"
-                class="
-                    p-2
-                    flex
-                    justify-center
-                    hover:bg-zinc-700
-                    rounded-xl
-                    bg-zinc-800
-                    translate-top"
-                    >
-                Forecast
-            </p>
-
-            <p id="history-el"
-                class="
-                    p-2
-                    flex
-                    justify-center
-                    hover:bg-zinc-700
-                    rounded-xl
-                    bg-zinc-800
-                    translate-top"
-                    >
-                History
-            </p>
-        </div>
-    </aside>
 
     <main id="main-content" class="text-gray-200 ml-0">
         <div id="weather-info" class=""></div>
@@ -222,3 +123,5 @@
     <script src="./bundle.js"></script>
 </body>
 </html>
+
+<!-- Make the header buttons deselect the other if one is clicked -->
