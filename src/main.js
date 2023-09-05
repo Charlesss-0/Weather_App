@@ -24,6 +24,7 @@ export function renderCurrentWeather () {
         const json = await response.json()
         renderWeather(json)
         renderCurrentTime(lat, lon)
+
         const textCondition = json.current.condition.text
 
         if (textCondition.includes(cloudy)) {

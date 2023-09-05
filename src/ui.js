@@ -1,4 +1,7 @@
 export function renderUi () {
+    const dailyEl = document.getElementById('daily-el')
+    const hourlyEl = document.getElementById('hourly-el')
+
     function bodyBackground () {
         const body = document.querySelector('body')
         const searchForm = document.getElementById('search-form')
@@ -47,4 +50,18 @@ export function renderUi () {
 
     }
     bodyBackground()
+    
+    dailyEl.addEventListener('click', () => {
+        hourlyEl.classList.add('text-zinc-200')
+        hourlyEl.classList.remove('bg-zinc-200')
+        dailyEl.classList.remove('text-zinc-200')
+        dailyEl.classList.add('bg-zinc-200', 'text-gray-900')
+    })
+
+    hourlyEl.addEventListener('click', () => {
+        dailyEl.classList.add('text-zinc-200')
+        dailyEl.classList.remove('bg-zinc-200')
+        hourlyEl.classList.remove('text-zinc-200')
+        hourlyEl.classList.add('bg-zinc-200', 'text-gray-900')
+    })
 }

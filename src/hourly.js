@@ -28,7 +28,7 @@ export function renderHourly () {
         
         removeBackground()
         hourlyInfoEl.innerHTML += `
-            <h1 class="mt-20 text-2xl">
+            <h1 class="mt-32 text-2xl">
                 Hourly Weather - <span class="text-lg">${city}, ${country}</span>
             </h1>
 

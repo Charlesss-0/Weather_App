@@ -6,6 +6,7 @@ const dailyEl = document.getElementById('daily-el')
 const hourlyEl = document.getElementById('hourly-el')
 
 renderCurrentWeather()
+// renderHourly()
 renderUi()
 
 dailyEl.addEventListener('click', renderCurrentWeather)
