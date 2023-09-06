@@ -1,6 +1,19 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.montserrat {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.nunito {
+    font-family: 'Nunito', sans-serif;
+}
 
 #search-input::-webkit-search-cancel-button {
     display: none;
@@ -79,11 +92,19 @@
 
 .custom-gradient {
     background: #3D7EAA;
-    background: linear-gradient(to bottom, #FFE47A, #3D7EAA);
+    background: linear-gradient(to bottom, #FFE47A, #3D7EAA 80%);
+}
+
+.warm {
+    color: #FFE47A;
+}
+
+.cool {
+    color: #3D7EAA;
 }
 
 .background-zinc-800 {
-    background: rgba(39, 39, 42, 0.7);
+    background: #27272aaf;
 }
 
 .margin-top-first:nth-child(1) {

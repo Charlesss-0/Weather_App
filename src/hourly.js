@@ -2,8 +2,6 @@ import { format, parseISO } from "date-fns"
 
 export function renderHourly () {
     const body = document.querySelector('body')
-    const searchForm = document.getElementById('search-form')
-    const searchInput = document.getElementById('search-input')
     const weatherInfo = document.getElementById('weather-info')
     const hourlyInfoEl = document.getElementById('hourly-info')
 
@@ -17,6 +15,7 @@ export function renderHourly () {
 
         renderHero(json)
         getWeatherData(json)
+        handleBackgroundColor(json)
     }
 
     function renderHero (data) {
@@ -26,7 +25,7 @@ export function renderHourly () {
 
         const formattedDate = format(currentDate, 'EEEE, MMM dd')
         
-        removeBackground()
+        weatherInfo.innerHTML = ''
         hourlyInfoEl.innerHTML += `
             <h1 class="mt-32 text-2xl">
                 Hourly Weather - <span class="text-lg">${city}, ${country}</span>
@@ -108,7 +107,7 @@ export function renderHourly () {
 
                 <div
                     class="
-                        bg-zinc-950 
+                        bg-white/10
                         w-full 
                         rounded-xl 
                         grid
@@ -175,10 +174,24 @@ export function renderHourly () {
                 </div>
             `
             const div = document.createElement('div')
-            div.classList.add('w-full', 'px-5', 'py-1', 'flex', 'flex-col', 'items-center', 'justify-center', 'max-w-5xl', 'bg-zinc-900', 'rounded-lg', 'transition-all', 'duration-200', 'ease-linear')
+            div.classList.add(
+                    'text-sm',
+                    'w-full', 
+                    'px-5', 
+                    'py-1', 
+                    'flex', 
+                    'flex-col', 
+                    'items-center', 
+                    'justify-center', 
+                    'max-w-5xl', 
+                    'bg-black/80', 
+                    'rounded-lg', 
+                    'transition-all', 
+                    'duration-200', 
+                    'ease-linear'
+                    )
             div.innerHTML = weatherData
 
-            removeBackground()
             hourlyInfoEl.append(div)
 
             addClickEvent(div)
@@ -215,10 +228,41 @@ export function renderHourly () {
         }
     }
 
-    function removeBackground () {
-        weatherInfo.innerHTML = ''
-        body.className = ''
-        body.classList.add('bg-neutral-950')
+    function handleBackgroundColor (json) {
+        const sunny = 'sunny'
+        const rainny = 'rain'
+        const cloudy = 'cloudy'
+        const overcast = 'overcast'
+        const mist = 'Mist'
+        const fog = 'Fog'
+        const clear = 'Clear'
+    
+        const weatherCondition = json.current.condition.text
+
+        if (weatherCondition.includes(cloudy)) {
+            body.className = ''
+            body.classList.add('cloudy')
+
+        } else if (weatherCondition.includes(sunny)) {
+            body.className = ''
+            body.classList.add('sunny')
+
+        } else if (weatherCondition.includes(rainny)) {
+            body.className = ''
+            body.classList.add('rainny')
+
+        } else if (weatherCondition.includes(overcast)) {
+            body.className = ''
+            body.classList.add('overcast')
+
+        } else if (weatherCondition.includes(mist) || weatherCondition.includes(fog)) {
+            body.className = ''
+            body.classList.add('mist')
+
+        } else if (weatherCondition.includes(clear)) {
+            body.className = ''
+            body.classList.add('clear')
+        }
     }
 }
 
