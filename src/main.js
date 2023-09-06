@@ -8,13 +8,6 @@ export function renderCurrentWeather () {
     const searchForm = document.getElementById('search-form')
     const searchInput = document.getElementById('search-input')
 
-    const sunny = 'sunny'
-    const rainny = 'rain'
-    const cloudy = 'cloudy'
-    const overcast = 'overcast'
-    const mist = 'mist'
-    const clear = 'Clear'
-
     async function getWeatherData (position) {
         const lat = position.coords.latitude
         const lon = position.coords.longitude
@@ -24,33 +17,7 @@ export function renderCurrentWeather () {
         const json = await response.json()
         renderWeather(json)
         renderCurrentTime(lat, lon)
-
-        const textCondition = json.current.condition.text
-
-        if (textCondition.includes(cloudy)) {
-            body.className = ''
-            body.classList.add('cloudy')
-
-        } else if (textCondition.includes(sunny)) {
-            body.className = ''
-            body.classList.add('sunny')
-
-        } else if (textCondition.includes(rainny)) {
-            body.className = ''
-            body.classList.add('rainny')
-
-        } else if (textCondition.includes(overcast)) {
-            body.className = ''
-            body.classList.add('overcast')
-
-        } else if (textCondition.includes(mist)) {
-            body.className = ''
-
-            body.classList.add('mist')
-        } else if (textCondition.includes(clear)) {
-            body.className = ''
-            body.classList.add('clear')
-        }
+        handleBackgroundColor(json)
     }
 
     navigator.geolocation.getCurrentPosition(getWeatherData)
@@ -65,16 +32,18 @@ export function renderCurrentWeather () {
         const feelslikeC = parseInt(response.current.feelslike_c)
         const wind =  parseInt(response.current.wind_kph)
         const windDir = response.current.wind_dir
+        const humidity = response.current.humidity
+        const dewPoint = response
 
         const dateOne = parseISO(response.forecast.forecastday[0].date)
         const dateTwo = parseISO(response.forecast.forecastday[1].date)
         const dateThree = parseISO(response.forecast.forecastday[2].date)
         const dateFour = parseISO(response.forecast.forecastday[3].date)
 
-        const dayNameOne = format(dateOne, 'EEEE, MMM d')
-        const dayNameTwo = format(dateTwo, 'EEEE, MMM d')
-        const dayNameThree = format(dateThree, 'EEEE, MMM d')
-        const dayNameFour = format(dateFour, 'EEEE, MMM d')
+        const dayNameOne = format(dateOne, 'EEE, MMM d')
+        const dayNameTwo = format(dateTwo, 'EEE, MMM d')
+        const dayNameThree = format(dateThree, 'EEE, MMM d')
+        const dayNameFour = format(dateFour, 'EEE, MMM d')
 
         const dayOneIcon = response.forecast.forecastday[0].day.condition.icon
         const dayTwoIcon = response.forecast.forecastday[1].day.condition.icon
@@ -97,9 +66,7 @@ export function renderCurrentWeather () {
         weatherInfo.innerHTML = `
             <div 
                 class="
-                    mt-32 
-                    mx-auto 
-                    p-3 
+                    mt-36
                     h-full 
                     flex 
                     flex-col 
@@ -125,51 +92,83 @@ export function renderCurrentWeather () {
                     Now
                 </h2>
 
-                <div 
+                <div id="weather-background"
                     class="
-                        grid 
-                        justify-items-center 
-                        gap-y-2"
+                        w-max
+                        m-auto
+                        flex
+                        justify-evenly
+                        items-center
+                        gap-10
+                        p-10
+                        rounded-2xl
+                        background-zinc-800
+                        backdrop-blur
+                        [&>*]:flex
+                        [&>*]:gap-16
+                        [&>*]:p-2"
                         >
-                    <img src="${iconCondition}" class="w-14">
+                    <div>
+                        <div class="grid gap-2">
+                            <p class="text-6xl text-center font-semibold">
+                                ${tempC}°C
+                            </p>
 
-                    <div class="grid gap-2">
-                        <p class="text-5xl text-center font-semibold">
-                            ${tempC}°C
-                        </p>
+                            <div class="text-lg flex items-center gap-3">
+                                <i class="fi fi-rr-temperature-high"></i>
 
-                        <div class="text-lg flex items-center gap-3">
-                            <i class="fi fi-rr-temperature-high"></i>
-                            <p>
-                                Feels Like<br>
-                                ${feelslikeC}°C
+                                <p>
+                                    Feels Like<br>
+                                    ${feelslikeC}°C
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-5">
+                            <img src="${iconCondition}" class="w-14">
+
+                            <p class="text-2xl font-medium my-10">
+                                ${textCondition}
                             </p>
                         </div>
                     </div>
 
-                    <p class="text-3xl font-medium my-10">
-                        ${textCondition}
-                    </p>
+                    <div class="[&>*]:flex [&>*]:items-center [&>*]:gap-3 text-lg">
+                        <div class="flex items-center gap-3">
+                            <i class="fi fi-rr-wind"></i>
+                        
+                            <p>
+                                Wind<br>
+                                ${windDir} ${wind} km/h
+                            </p>
+                        </div>
 
-                    <p class="text-2xl grid gap-2 justify-items-center">
-                        Wind<br>
-                        <span class="text-lg flex items-center gap-3">
-                            <i class="fi fi-rr-wind grid"></i>${windDir} ${wind} km/h
-                        </span>
-                    </p>
+                        <div>
+                            <i class="fi fi-rr-raindrops"></i>
+                            <p>
+                                Humidity<br>
+                                ${humidity}%
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 <div 
                     class="
-                        max-w-5xl
                         p-3 
                         flex 
-                        flex-col 
-                        gap-3 
+                        gap-10
                         m-auto
-                        mt-10"
+                        mt-10
+                        [&>*]:w-28
+                        [&>*]:grid
+                        [&>*]:justify-items-center
+                        [&>*]:gap-5
+                        [&>*]:p-2
+                        [&>*]:py-5
+                        [&>*]:rounded-xl"
                         >
-                    <div class="flex justify-between items-center custom-gap-4vw">
+                    <div class="background-zinc-800">
                         <p>
                             ${dayNameOne}
                         </p>
@@ -177,15 +176,17 @@ export function renderCurrentWeather () {
                         <img src="${dayOneIcon}" class="w-12">
 
                         <p>
-                            Min (${minTempDayOne}°C)
+                            ${maxTempDayOne}°C
                         </p>
 
+                        <div class="w-5 h-20 rounded-2xl custom-gradient"></div>
+
                         <p>
-                            Max (${maxTempDayOne}°C)
+                            ${minTempDayOne}°C
                         </p>
                     </div>
 
-                    <div class="flex justify-between items-center">
+                    <div class="background-zinc-800">
                         <p>
                         ${dayNameTwo}
                         </p>
@@ -193,15 +194,17 @@ export function renderCurrentWeather () {
                         <img src="${dayTwoIcon}" class="w-12">
 
                         <p>
-                            Min (${minTempDayTwo}°C)
+                            ${maxTempDayTwo}°C
                         </p>
 
+                        <div class="w-5 h-20 rounded-2xl custom-gradient"></div>
+
                         <p>
-                            Max (${maxTempDayTwo}°C)
+                            ${minTempDayTwo}°C
                         </p>
                     </div>
 
-                    <div class="flex justify-between items-center">
+                    <div class="background-zinc-800">
                         <p>
                             ${dayNameThree}
                         </p>
@@ -209,15 +212,17 @@ export function renderCurrentWeather () {
                         <img src="${dayThreeIcon}" class="w-12">
 
                         <p>
-                            Min (${minTempDayThree}°C)
+                            ${maxTempDayThree}°C
                         </p>
 
+                        <div class="w-5 h-20 rounded-2xl custom-gradient"></div>
+
                         <p>
-                            Max (${maxTempDayThree}°C)
+                            ${minTempDayThree}°C
                         </p>
                     </div>
 
-                    <div class="flex justify-between items-center">
+                    <div class="background-zinc-800">
                         <p>
                             ${dayNameFour}
                         </p>
@@ -225,11 +230,13 @@ export function renderCurrentWeather () {
                         <img src="${dayFourIcon}" class="w-12">
 
                         <p>
-                            Min (${minTempDayFour}°C)
+                            ${maxTempDayFour}°C
                         </p>
 
+                        <div class="w-5 h-20 rounded-2xl custom-gradient"></div>
+
                         <p>
-                            Max (${maxTempDayFour}°C)
+                            ${minTempDayFour}°C
                         </p>
                     </div>
                 </div>
@@ -273,6 +280,43 @@ export function renderCurrentWeather () {
                 ${formattedTime}
             </p>
         `
+    }
+
+    function handleBackgroundColor (json) {
+        const sunny = 'sunny'
+        const rainny = 'rain'
+        const cloudy = 'cloudy'
+        const overcast = 'overcast'
+        const mist = 'Mist'
+        const fog = 'Fog'
+        const clear = 'Clear'
+    
+        const weatherCondition = json.current.condition.text
+
+        if (weatherCondition.includes(cloudy)) {
+            body.className = ''
+            body.classList.add('cloudy')
+
+        } else if (weatherCondition.includes(sunny)) {
+            body.className = ''
+            body.classList.add('sunny')
+
+        } else if (weatherCondition.includes(rainny)) {
+            body.className = ''
+            body.classList.add('rainny')
+
+        } else if (weatherCondition.includes(overcast)) {
+            body.className = ''
+            body.classList.add('overcast')
+
+        } else if (weatherCondition.includes(mist) || weatherCondition.includes(fog)) {
+            body.className = ''
+            body.classList.add('mist')
+
+        } else if (weatherCondition.includes(clear)) {
+            body.className = ''
+            body.classList.add('clear')
+        }
     }
 
     searchForm.addEventListener('submit', searchCity)

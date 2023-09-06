@@ -43,32 +43,43 @@
 }
 
 .cloudy {
-    background: #54416d;
+    background: #0F2027; 
+    background: linear-gradient(to left, #2C5364, #203A43, #0F2027); 
 }
 
 .rainny {
-    background: rgb(28,43,70);
+    background: #000046;
+    background: linear-gradient(to left, #1CB5E0, #000046);
 }
 
 .thunder {
-    background: #2b235a;
+    background: #141E30;
+    background: linear-gradient(to left, #243B55, #141E30);
 }
 
 .sunny {
-    background: #8fe0ff;
+    background: #56CCF2;
+    background: linear-gradient(to left, #2F80ED, #56CCF2);
 }
 
 .overcast {
-    background: rgb(18,30,51);
+    background: #3a7bd5;
+    background: linear-gradient(to left, #3a6073, #3a7bd5);
 }
 
 .mist {
-    background: rgb(59,81,121);
+    background: #525252;
+    background: linear-gradient(to left, #3d72b4, #525252);
 }
 
 .clear {
-    background: rgb(30,88,107);
-    background: linear-gradient(90deg, rgba(30,88,107,1) 24%, rgba(48,113,157,1) 100%);
+    background: #457fca;
+    background: linear-gradient(to left, #5691c8, #457fca);
+}
+
+.custom-gradient {
+    background: #3D7EAA;
+    background: linear-gradient(to bottom, #FFE47A, #3D7EAA);
 }
 
 .background-zinc-800 {
