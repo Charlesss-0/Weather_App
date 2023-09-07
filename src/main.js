@@ -1,9 +1,10 @@
 import { format, parseISO } from "date-fns"
+import { getDailyData } from "./daily"
+import { getHourlyData } from "./hourly"
 
 export function renderCurrentWeather () {
     const body = document.querySelector('body')
     const weatherInfo = document.getElementById('weather-info')
-    const hourlyInfoEl = document.getElementById('hourly-info')
     const searchForm = document.getElementById('search-form')
     const searchInput = document.getElementById('search-input')
 
@@ -11,14 +12,13 @@ export function renderCurrentWeather () {
         const lat = position.coords.latitude
         const lon = position.coords.longitude
 
-        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${lat},${lon}&days=7`,
+        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${lat},${lon}&days=8`,
         { mode: 'cors' })
         const json = await response.json()
         renderWeather(json)
         renderCurrentTime(lat, lon)
         handleBackgroundColor(json)
     }
-
     navigator.geolocation.getCurrentPosition(getWeatherData)
 
     function renderWeather (response) {
@@ -35,23 +35,12 @@ export function renderCurrentWeather () {
         const cloud = response.current.cloud
         const sunrise = response.forecast.forecastday[0].astro.sunrise
         const sunset = response.forecast.forecastday[0].astro.sunset
-
         const currentDate = parseISO(response.forecast.forecastday[0].date)
-
         const formattedDate = format(currentDate, 'EEEE dd MMMM')
 
-        hourlyInfoEl.innerHTML = ''
         weatherInfo.innerHTML = `
-            <div class="mt-36 h-full flex flex-col gap-8">
-                <div class="flex justify-evenly items-center text-center">
-                    <h1 class="text-2xl font-semibold">
-                        ${city}, ${region}, ${country}
-                    </h1>
-
-                    <div id="current-time" class="text-lg"></div>
-                </div>
-
-                <div class="flex justify-evenly gap-12 w-9/12 m-auto p-10 rounded-3xl bg-black/20">
+            <div class="mt-24 h-full flex flex-col gap-8">
+                <div class="flex justify-evenly gap-12 w-9/12 m-auto p-10 rounded-3xl bg-black/50 backdrop-blur">
                     <div class="flex flex-col items-center justify-center">
                         <img src="${iconCondition}" class="w-20">
                             
@@ -84,7 +73,7 @@ export function renderCurrentWeather () {
 
                         <div class="nunito grid grid-cols-2 gap-x-10 gap-y-5 mt-5 [&>*]:flex [&>*]:items-center [&>*]:gap-2">
                             <div>
-                                <i class="fi fi-rr-wind flex"></i> 
+                                <i class="fi fi-rr-wind grid"></i>
                                 
                                 <p>
                                     Wind Speed<br>
@@ -145,61 +134,162 @@ export function renderCurrentWeather () {
 
                 </div>
 
-                <div id="daily-forecast" class="w-9/12 p-3 flex justify-around m-auto mt-10"></div>
+                <div class="flex justify-center gap-5 w-11/12 m-auto p-2">
+                    <h2 id="daily" class="bg-black/50 p-2 px-5 rounded-lg cursor-pointer select-none">
+                        Daily
+                    </h2>
+
+                    <div class="border-left"></div>
+
+                    <h2 id="hourly" class="bg-black/50 p-2 px-5 rounded-lg cursor-pointer select-none">
+                        Hourly
+                    </h2>
+                </div>
+
+                <div id="daily-hourly" class="w-11/12 px-12 py-5 flex gap-10 m-auto overflow-auto no-scrollbar relative"></div>
             </div>
         `
 
-        const dailyForecastEl = document.getElementById('daily-forecast')
-        const daily = response.forecast.forecastday
+        const location = document.getElementById('location')
+        location.innerHTML = `
+            <h1 class="text-2xl font-semibold">
+                ${city}, ${region}, ${country}
+            </h1>
+        `
 
-        daily.forEach((day) => {
-            const date = parseISO(day.date)
-            const icon = day.day.condition.icon
-            const maxTemp = parseInt(day.day.maxtemp_c)
-            const minTemp = parseInt(day.day.mintemp_c)
+        switchDailyHourly(response)
+    }
 
-            const formattedDate = format(date, 'EEE, MMM dd')
+    function switchDailyHourly (response) {
+        const dailyHourlyEl = document.getElementById('daily-hourly')
+        const daily = document.getElementById('daily')
+        const hourly = document.getElementById('hourly')
 
-            const div = document.createElement('div')
-            div.innerHTML = `
-                <div class="nunito text-sm bg-black/40 w-32 grid justify-items-center gap-5 p-2 py-5 rounded-xl">
-                    <p>
-                        ${formattedDate}
-                    </p>
+        renderDailyWeather()
+        // renderHourlyWeather()
 
-                    <img src="${icon}" class="w-12">
+        daily.addEventListener('click', renderDailyWeather)
+        hourly.addEventListener('click', renderHourlyWeather)
 
-                    <p class="warm">
-                        ${maxTemp}°C
-                    </p>
+        function renderDailyWeather () {
+            const dailyData = response.forecast.forecastday
+            dailyHourlyEl.innerHTML = ''
+            dailyHourlyEl.classList.add('justify-center')
+            dailyData.forEach((day) => getDailyData(day, dailyHourlyEl))
+        }
 
-                    <div class="w-5 h-28 rounded-2xl custom-gradient"></div>
+        function renderHourlyWeather () {
+            const hourlyData = response.forecast.forecastday[0].hour
+            dailyHourlyEl.innerHTML = ''
+            dailyHourlyEl.classList.remove('justify-center')
+            hourlyData.forEach((hour) => getHourlyData(hour, dailyHourlyEl))
+            dailyHourlyEl.innerHTML += `
+                <div id="left-container"
+                    class="
+                        absolute 
+                        left-0 
+                        bottom-0 
+                        top-0 
+                        w-20 
+                        grid 
+                        items-center 
+                        justify-center"
+                        >
+                    <div id="left" class="bg-black/50 py-6 px-2 rounded-xl bg-white/50 cursor-pointer invisible transition-all duration-200 ease-in-out">
+                        <i class="fi fi-rr-angle-left grid text-2xl text-black/80"></i>
+                    </div>
+                </div>
 
-                    <p class="cool">
-                        ${minTemp}°C
-                    </p>
+                <div id="right-container"
+                    class="
+                        absolute 
+                        right-0 
+                        bottom-0 
+                        top-0 
+                        w-20 
+                        grid 
+                        items-center 
+                        justify-center"
+                        >
+                    <div id="right" class="bg-black/50 py-6 px-2 rounded-xl bg-white/50 cursor-pointer invisible transition-all duration-200 ease-in-out">
+                        <i class="fi fi-rr-angle-right grid text-2xl text-black/80"></i>
+                    </div>
                 </div>
             `
-            dailyForecastEl.appendChild(div)
-        })
+
+            const leftContainer = document.getElementById('left-container')
+            const rightContainer = document.getElementById('right-container')
+            const left = document.getElementById('left')
+            const right = document.getElementById('right')
+
+            left.addEventListener('click', handleLeftArrowClick)
+            right.addEventListener('click', handleRightArrowClick)
+
+            leftContainer.addEventListener('mouseover', () => {
+                left.classList.add('show')
+
+                leftContainer.addEventListener('mouseleave', () => {
+                    left.classList.remove('show')
+                })
+            })
+
+            rightContainer.addEventListener('mouseover', () => {
+                right.classList.add('show')
+
+                rightContainer.addEventListener('mouseleave', () => {
+                    right.classList.remove('show')
+                })
+            })
+
+            const hourContainer = document.querySelectorAll('.hour-container')
+            let scrollPosition = 0
+            const scrollAmount = 673.8
+            const maxScroll = dailyHourlyEl.scrollWidth - dailyHourlyEl.offsetWidth
+    
+            function handleLeftArrowClick () {
+                if (scrollPosition > 0) {
+                    scrollPosition -= scrollAmount
+    
+                    if (scrollPosition < 0) {
+                        scrollPosition = 0
+                    }
+        
+                    hourContainer.forEach((hour) => {
+                        hour.style.transform = `translateX(-${scrollPosition}px)`
+                    })
+                }
+            }
+        
+            function handleRightArrowClick () {    
+                if (scrollPosition < maxScroll) {
+                    scrollPosition += scrollAmount
+    
+                    if (scrollPosition > maxScroll) {
+                        scrollPosition = maxScroll
+                    }
+        
+                    hourContainer.forEach((hour) => {
+                        hour.style.transform = `translateX(-${scrollPosition}px)`
+                    })
+                }
+            }
+        }
     }
 
     async function renderCurrentTime (lat, lon) {
         const response = await fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=FB9X38BQ1RT7&format=json&by=position&lat=${lat}&lng=${lon}`, 
         { mode: 'cors' })
         const json = await response.json()
-        getCurrentDate(json)
+        getCurrentTime(json)
     }
 
-    function getCurrentDate (response) {
-        const currentTimeEl = document.getElementById('current-time')
+    function getCurrentTime (response) {
+        const currentTime = document.getElementById('time')
         const dateTimeString = response.formatted
-
         const time = new Date(dateTimeString)
-
         const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
-        currentTimeEl.innerHTML = `
+        currentTime.innerHTML = `
             <p class="text-center">
                 Time
             </p>
@@ -210,38 +300,34 @@ export function renderCurrentWeather () {
         `
     }
 
-    function handleBackgroundColor (json) {
-        const sunny = 'sunny'
-        const rainny = 'rain'
-        const cloudy = 'cloudy'
-        const overcast = 'overcast'
-        const mist = 'Mist'
-        const fog = 'Fog'
-        const clear = 'Clear'
-    
+    function handleBackgroundColor (json) {    
         const weatherCondition = json.current.condition.text
 
-        if (weatherCondition.includes(cloudy)) {
+        if (weatherCondition.includes('cloudy')) {
             body.className = ''
             body.classList.add('cloudy')
 
-        } else if (weatherCondition.includes(sunny)) {
+        } else if (weatherCondition.includes('Sunny')) {
             body.className = ''
             body.classList.add('sunny')
 
-        } else if (weatherCondition.includes(rainny)) {
+        } else if (weatherCondition.includes('rain')) {
             body.className = ''
             body.classList.add('rainny')
 
-        } else if (weatherCondition.includes(overcast)) {
+        } else if (weatherCondition.includes('Overcast')) {
             body.className = ''
             body.classList.add('overcast')
 
-        } else if (weatherCondition.includes(mist) || weatherCondition.includes(fog)) {
+        } else if (weatherCondition.includes('Mist')) {
             body.className = ''
             body.classList.add('mist')
 
-        } else if (weatherCondition.includes(clear)) {
+        } else if (weatherCondition.includes('Fog')) {
+            body.className = ''
+            body.classList.add('fog')
+
+        } else if (weatherCondition.includes('Clear')) {
             body.className = ''
             body.classList.add('clear')
         }
@@ -253,26 +339,15 @@ export function renderCurrentWeather () {
         event.preventDefault()
 
         const input = searchInput.value
-        if (input !== '') {
-            const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${input}&days=05`,
-            { mode: 'cors' })
-            const json = await response.json()
+        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${input}&days=08`,
+        { mode: 'cors' })
+        const json = await response.json()
+        const lat = json.location.lat
+        const lon = json.location.lon
 
-            weatherInfo.innerHTML = ''
-            renderWeather(json)
-
-            const lat = json.location.lat
-            const lon = json.location.lon
-            renderCurrentTime(lat, lon)
-
-        } else {
-            weatherInfo.innerHTML = `
-                <h1 class="mt-24 text-gray-200 text-3xl text-center">
-                    City Not Found,<br>
-                    Please Provide a Name!
-                </h1>
-            `
-        }
+        weatherInfo.innerHTML = ''
+        renderWeather(json)
+        renderCurrentTime(lat, lon)
 
         searchForm.reset()
     }

@@ -1,268 +1,74 @@
-import { format, parseISO } from "date-fns"
+export function getHourlyData (hour, dailyHourly) {
+    const date = hour.time
+    const icon = hour.condition.icon
+    const tempC = parseInt(hour.temp_c)
+    const humidity = hour.humidity
+    const dewpoint = parseInt(hour.dewpoint_c)
+    const uvIndex = hour.uv
+    const windSpeed = parseInt(hour.wind_kph)
 
-export function renderHourly () {
-    const body = document.querySelector('body')
-    const weatherInfo = document.getElementById('weather-info')
-    const hourlyInfoEl = document.getElementById('hourly-info')
+    const time = new Date(date)
+    const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
-    async function getPosition (position) {
-        const lat = position.coords.latitude
-        const lon = position.coords.longitude
-
-        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${lat},${lon}&days=05`,
-        { mode: 'cors' })
-        const json = await response.json()
-
-        renderHero(json)
-        getWeatherData(json)
-        handleBackgroundColor(json)
-    }
-
-    function renderHero (data) {
-        const city = data.location.name
-        const country = data.location.country
-        const currentDate = parseISO(data.location.localtime)
-
-        const formattedDate = format(currentDate, 'EEEE, MMM dd')
-        
-        weatherInfo.innerHTML = ''
-        hourlyInfoEl.innerHTML += `
-            <h1 class="mt-32 text-2xl">
-                Hourly Weather - <span class="text-lg">${city}, ${country}</span>
+    const div = document.createElement('div')
+    div.classList.add('hour-container', 'transition-all', 'duration-500', 'ease-in-out', 'select-none')
+    div.innerHTML = `
+        <div 
+            class="
+                w-32 
+                grid 
+                justify-center 
+                gap-5 
+                text-center 
+                py-5 
+                bg-black/50 
+                backdrop-blur 
+                rounded-xl 
+                [&>*]:text-xs
+                nunito"
+                >
+            <h1>
+                ${formattedTime}
             </h1>
 
-            <h1 class="text-xl">
-                ${formattedDate}
-            </h1>
-        `
-    }
+            <img src="${icon}">
 
-    function getWeatherData (info) {
-        const dayOne = info.forecast.forecastday[0].hour
-        dayOne.forEach((data) => {
-            const currentDate = parseISO(data.time)
-            const textCondition = data.condition.text
-            const iconCondition = data.condition.icon
-            const tempC = parseInt(data.temp_c)
-            const feelslikeC = parseInt(data.feelslike_c)
-            const windKph = parseInt(data.wind_kph)
-            const windDir = data.wind_dir
-            const humidity = data.humidity
-            const uv = data.uv
-            const cloudCover = data.cloud
-            const dewPoint = parseInt(data.dewpoint_c)
+            <p>
+                ${tempC}°C
+            </p>
 
-            const dateTime = new Date(currentDate)
-            const formattedTime = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            <p>
+                Wind Speed<br>
+                <span class="flex justify-center items-center gap-2">
+                    <i class="fi fi-rr-wind grid"></i>
+                    ${windSpeed} km/h
+                </span>
+            </p>
 
-            const weatherData = `
-                <div 
-                    class="
-                        w-full 
-                        flex 
-                        items-center
-                        cursor-pointer
-                        select-none
-                        card-header"
-                        >
-                    <div 
-                        class="
-                            flex-1 
-                            flex 
-                            justify-center
-                            items-center"
-                            >
-                        <div class="flex justify-between gap-10 px-10">
-                            <p>
-                                ${formattedTime}
-                            </p>
-                            
-                            <p>
-                                ${tempC}°C
-                            </p>
-                        </div>
+            <p>
+                Humidity<br>
+                <span class="flex justify-center items-center gap-2">
+                    <i class="fi fi-rr-raindrops grid"></i>
+                    ${humidity}%
+                </span>
+            </p>
 
-                        <div class="flex-1 flex justify-between px-10">
-                            <div class="flex items-center gap-3">
-                                <img src="${iconCondition}">
-                                <p>
-                                    ${textCondition}
-                                <p>
-                            </div>
+            <p>
+                Dew Point<br>
+                <span class="flex justify-center items-center gap-2">
+                    <i class="fi fi-rr-dewpoint grid"></i>
+                    ${dewpoint}°
+                </span>
+            </p>
 
-                            <div class="flex items-center gap-3 ml-10">
-                                <i class="fi fi-rr-wind grid"></i>
-                            
-                                <span>
-                                    ${windDir} ${windKph} km/h
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <i class="fi fi-rr-caret-up down-arrow-two arrow-el flex"></i>
-                    </div>
-                </div>
-
-                <div
-                    class="
-                        bg-white/10
-                        w-full 
-                        rounded-xl 
-                        grid
-                        items-center
-                        h-0
-                        p-0
-                        overflow-hidden
-                        transition-all duration-200 ease-linear
-                        card-content-container"
-                        >
-                    <div class="grid gap-5 translate-top-100 transition-all duration-200 ease-linear card-content">
-                        <div class="flex justify-evenly">
-                            <div class="flex items-center gap-3">
-                                <i class="fi fi-rr-temperature-high grid"></i>
-                                <p class="">
-                                    Feels Like<br>
-                                    ${feelslikeC}°C
-                                </p>
-                            </div>
-
-                            <div class="flex items-center gap-3">
-                                <i class="fi fi-rr-wind grid"></i>
-                                <p>
-                                    Wind<br>
-                                    ${windDir} ${windKph} km/h
-                                </p>
-                            </div>
-
-                            <div class="flex items-center gap-3">
-                                <i class="fi fi-rr-raindrops grid"></i>
-                                <p>
-                                    Humidity<br>
-                                    ${humidity}%
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-evenly">
-                            <div class="flex items-center gap-3">
-                                <i class="fi fi-rr-sun grid"></i>
-                                <p>
-                                    UV Index<br>
-                                    ${uv} of 11
-                                </p>
-                            </div>
-
-                            <div class="flex items-center gap-3">
-                                <i class="fi fi-rr-cloud grid"></i>
-                                <p>
-                                    Cloud Cover<br>
-                                    ${cloudCover}%
-                                </p>
-                            </div>
-
-                            <div class="flex items-center gap-3">
-                                <i class="fi fi-rr-dewpoint grid"></i>
-                                <p>
-                                    Dew Point<br>
-                                    ${dewPoint}°
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `
-            const div = document.createElement('div')
-            div.classList.add(
-                    'text-sm',
-                    'w-full', 
-                    'px-5', 
-                    'py-1', 
-                    'flex', 
-                    'flex-col', 
-                    'items-center', 
-                    'justify-center', 
-                    'max-w-5xl', 
-                    'bg-black/80', 
-                    'rounded-lg', 
-                    'transition-all', 
-                    'duration-200', 
-                    'ease-linear'
-                    )
-            div.innerHTML = weatherData
-
-            hourlyInfoEl.append(div)
-
-            addClickEvent(div)
-        })
-    }
-    
-    navigator.geolocation.getCurrentPosition(getPosition)
-
-    function addClickEvent (div) {
-        const cardHeader = div.querySelector('.card-header')
-        const cardContentContainter = div.querySelector('.card-content-container')
-        const cardContent = div.querySelector('.card-content')
-        const arrowEl = div.querySelector('.arrow-el')
-
-        cardHeader.addEventListener('click', toggleClass)
-
-        function toggleClass () {
-            cardContentContainter.classList.toggle('show-content')
-            cardContent.classList.toggle('translate-down')
-
-            div.classList.toggle('pb-4')
-
-            const down = 'fi-rr-caret-down'
-            const up = 'fi-rr-caret-up'
-
-            if (arrowEl.classList.contains(up)) {
-                arrowEl.classList.remove(up)
-                arrowEl.classList.add(down)
-
-            } else if (arrowEl.classList.contains(down)) {
-                arrowEl.classList.remove(down)
-                arrowEl.classList.add(up)
-            }
-        }
-    }
-
-    function handleBackgroundColor (json) {
-        const sunny = 'sunny'
-        const rainny = 'rain'
-        const cloudy = 'cloudy'
-        const overcast = 'overcast'
-        const mist = 'Mist'
-        const fog = 'Fog'
-        const clear = 'Clear'
-    
-        const weatherCondition = json.current.condition.text
-
-        if (weatherCondition.includes(cloudy)) {
-            body.className = ''
-            body.classList.add('cloudy')
-
-        } else if (weatherCondition.includes(sunny)) {
-            body.className = ''
-            body.classList.add('sunny')
-
-        } else if (weatherCondition.includes(rainny)) {
-            body.className = ''
-            body.classList.add('rainny')
-
-        } else if (weatherCondition.includes(overcast)) {
-            body.className = ''
-            body.classList.add('overcast')
-
-        } else if (weatherCondition.includes(mist) || weatherCondition.includes(fog)) {
-            body.className = ''
-            body.classList.add('mist')
-
-        } else if (weatherCondition.includes(clear)) {
-            body.className = ''
-            body.classList.add('clear')
-        }
-    }
+            <p>
+                UV Index<br>
+                <span class="flex justify-center items-center gap-2">
+                    <i class="fi fi-rr-sun grid"></i>
+                    ${uvIndex} of 11
+                </span>
+            </p>
+        </div>
+    `
+    dailyHourly.appendChild(div)
 }
-
