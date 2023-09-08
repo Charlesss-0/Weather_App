@@ -560,12 +560,20 @@ video {
   left: 0px;
 }
 
+.left-2\/4{
+  left: 50%;
+}
+
 .right-0{
   right: 0px;
 }
 
 .top-0{
   top: 0px;
+}
+
+.top-5{
+  top: 1.25rem;
 }
 
 .z-10{
@@ -584,6 +592,14 @@ video {
 .mx-auto{
   margin-left: auto;
   margin-right: auto;
+}
+
+.mb-10{
+  margin-bottom: 2.5rem;
+}
+
+.mb-3{
+  margin-bottom: 0.75rem;
 }
 
 .ml-0{
@@ -628,6 +644,10 @@ video {
 
 .h-full{
   height: 100%;
+}
+
+.w-10{
+  width: 2.5rem;
 }
 
 .w-11\/12{
@@ -692,10 +712,6 @@ video {
   flex-direction: column;
 }
 
-.place-content-center{
-  place-content: center;
-}
-
 .items-center{
   align-items: center;
 }
@@ -736,10 +752,6 @@ video {
   gap: 1.25rem;
 }
 
-.gap-8{
-  gap: 2rem;
-}
-
 .gap-x-10{
   -moz-column-gap: 2.5rem;
        column-gap: 2.5rem;
@@ -749,8 +761,8 @@ video {
   row-gap: 1.25rem;
 }
 
-.overflow-auto{
-  overflow: auto;
+.overflow-hidden{
+  overflow: hidden;
 }
 
 .rounded-2xl{
@@ -852,8 +864,16 @@ video {
   padding-right: 1rem;
 }
 
+.pt-20{
+  padding-top: 5rem;
+}
+
 .text-center{
   text-align: center;
+}
+
+.text-start{
+  text-align: start;
 }
 
 .text-2xl{
@@ -874,11 +894,6 @@ video {
 .text-sm{
   font-size: 0.875rem;
   line-height: 1.25rem;
-}
-
-.text-xl{
-  font-size: 1.25rem;
-  line-height: 1.75rem;
 }
 
 .font-semibold{
@@ -1103,6 +1118,10 @@ body {
 
 .placeholder-color::-webkit-input-placeholder {
   color: #efefef;
+}
+
+.centerX {
+  transform: translateX(-50%)
 }
 
 .hover\:text-amber-200:hover{

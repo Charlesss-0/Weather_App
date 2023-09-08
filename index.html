@@ -66,7 +66,7 @@
             </form>
         </div>
 
-        <div id="time"></div>
+        <p id="time" class="text-center text-lg"></p>
     </header>
 
     <main id="main-content" class="text-gray-200 ml-0">
@@ -75,21 +75,50 @@
 
     <footer id="footer-content" 
         class="
-            flex 
-            justify-around 
+            flex
+            items-center
+            gap-10
+            text-sm
+            text-center
             text-gray-200 
             bg-black/80
             backdrop-blur
             p-10
             mt-10"
             >
-        <p>
-            Powered by <a href="https://www.weatherapi.com" target="_blank" class="text-amber-100 hover:text-amber-200">Weatherapi.com</a>
-        </p>
+        <div 
+            class="
+                flex-1
+                flex 
+                gap-10
+                text-start
+                text-sm
+                [&>*]:grid 
+                [&>*]:gap-2 
+                ">
+            <div>
+                <h2 class="text-center mb-3">
+                    API's
+                </h2>
 
-        <p>
+                <a href="https://www.weatherapi.com" target="_blank" class="text-amber-100 hover:text-amber-200">Weatherapi.com</a>
+                <a href="https://timezonedb.com" target="_blank" class="text-amber-100 hover:text-amber-200">timezonedb.com</a>
+            </div>
+
+            <div>
+                <h2 class="text-center mb-3">
+                    Assets
+                </h2>
+
+                <a href="https://www.flaticon.com" target="_blank" class="text-amber-100 hover:text-amber-200">Flaticon.com</a>
+                <a href="https://www.flaticon.com" target="_blank">icons created by Freepik - Flaticon</a>
+                <a href="https://unsplash.com" target="_blank" class="text-amber-100 hover:text-amber-200">Unsplash.com</a>
+            </div>
+        </div>
+
+         <h2>
             &copy; Made with ❤️ by <a href="https://github.com/Charlesss-0" target="_blank" class="text-amber-100 hover:text-amber-200">Charlesdev</a>
-        </p>
+        </h2>
     </footer>
 
     <script src="./bundle.js"></script>
