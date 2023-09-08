@@ -1,3 +1,14 @@
+import cloudy from './assets/cloudy.png'
+import overcast from './assets/overcast.png'
+import sunny from './assets/sun.png'
+import moderate from './assets/moderate.png'
+import heavy from './assets/heavy.png'
+import possible from './assets/possible.png'
+import clear from './assets/clear.png'
+import mist from './assets/mist.png'
+import fog from './assets/fog.png'
+import storm from './assets/storm.png'
+
 import { renderWeather } from "./weather"
 import { getDailyData } from "./daily"
 import { getHourlyData } from "./hourly"
@@ -50,16 +61,12 @@ async function getCurrentTime (lat, lon) {
 }
 
 function renderCurrentTime (response) {
-    const currentTime = document.getElementById('time')
+    const time = document.getElementById('time')
     const dateTimeString = response.formatted
-    const time = new Date(dateTimeString)
-    const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    const timeDate = new Date(dateTimeString)
+    const formattedTime = timeDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
-    currentTime.innerHTML = `
-        <p class="text-center text-lg">
-            ${formattedTime}
-        </p>
-    `
+    time.textContent = formattedTime
 }
 
 function renderLocation (response) {
@@ -71,7 +78,7 @@ function renderLocation (response) {
 
     location.innerHTML = `
         <h1 class="text-lg flex items-center gap-2">
-            <i class="fi fi-rr-marker grid"></i> Weather in <span class="font-semibold">${city}, ${region}, ${country}</span>
+            <i class="fi fi-rr-marker grid"></i> Weather in <span class="font-semibold">${city},</span> ${region}, ${country}
         </h1>
     `
 }
@@ -84,6 +91,7 @@ export function switchDailyHourly (response) {
     const hourly = document.getElementById('hourly')
 
     renderDailyWeather()
+    // renderHourlyWeather()
     daily.addEventListener('click', renderDailyWeather)
     hourly.addEventListener('click', renderHourlyWeather)
 
@@ -142,4 +150,32 @@ function handleBackgroundColor (json) {
         body.className = ''
         body.classList.add('clear')
     }
+}
+
+// It gets exported to weather.js, daily.js, and hourly.js modules
+// Sets the icon for the current weather condition
+export function getConditionIcon (icon, condition, date) {
+    if (condition.includes('cloudy') || condition.includes('Cloudy')) {
+        icon.src = cloudy
+    } else if (condition.includes('Sunny')) {
+        icon.src = sunny
+    } else if (condition.includes('rain possible')) {
+        icon.src = possible
+    } else if (condition.includes('Heavy rain')) {
+        icon.src = heavy
+    } else if (condition.includes('Moderate rain')) {
+        icon.src = moderate
+    } else if (condition.includes('Clear')) {
+        icon.src = clear
+    } else if (condition.includes('Mist')) {
+        icon.src = mist
+    } else if (condition.includes('Fog')) {
+        icon.src = fog
+    } else if (condition.includes('thunder')) {
+        icon.src = storm
+    } else if (condition.includes('Overcast')) {
+        icon.src = overcast
+    }
+
+    console.log(date)
 }

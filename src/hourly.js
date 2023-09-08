@@ -1,8 +1,9 @@
+import { getConditionIcon } from "./index"
+
 // It gets exported to index.js module
 // Render hourly information
 export function getHourlyData (hour, dailyHourly) {
     const condition = hour.condition.text
-    const icon = hour.condition.icon
     const tempC = parseInt(hour.temp_c)
     const humidity = hour.humidity
     const dewpoint = parseInt(hour.dewpoint_c)
@@ -20,9 +21,9 @@ export function getHourlyData (hour, dailyHourly) {
                 ${formattedTime}
             </h1>
 
-            <img src="${icon}">
+            <img class="icon w-10">
 
-            <p class="text-lg text-center h-14">
+            <p class="text-lg text-center h-12">
                 ${condition}
             </p>
 
@@ -56,4 +57,7 @@ export function getHourlyData (hour, dailyHourly) {
         </div>
     `
     dailyHourly.appendChild(div)
+
+    const icon = div.querySelector('.icon')
+    getConditionIcon(icon, condition, date)
 }

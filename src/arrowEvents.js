@@ -2,6 +2,12 @@
 // Handles the events on the left and right arrows in hourly information
 export function handleArrowClickEvents (dailyHourly) {
     dailyHourly.innerHTML += `
+            <div class="absolute top-5 left-2/4 centerX text-lg select-none text-shadow">
+                <h2>
+                    Today
+                </h2>
+            </div>
+
             <div id="left-container" 
                 class="
                     absolute 

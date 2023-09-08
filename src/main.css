@@ -160,3 +160,7 @@ body {
 .placeholder-color::-webkit-input-placeholder {
     color: #efefef;
 }
+
+.centerX {
+    transform: translateX(-50%)
+}

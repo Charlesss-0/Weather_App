@@ -1,5 +1,6 @@
 import { format, parseISO } from "date-fns"
 import { switchDailyHourly } from "./index"
+import { getConditionIcon } from "./index"
 
 // It gets exported to index.js module
 // Renders weather information for the current position or any searched city
@@ -7,7 +8,6 @@ export function renderWeather (response) {
     const weatherInfo = document.getElementById('weather-info')
 
     const textCondition = response.current.condition.text
-    const iconCondition = response.current.condition.icon
     const tempC = parseInt(response.current.temp_c)
     const feelslikeC = parseInt(response.current.feelslike_c)
     const windSpeed =  parseInt(response.current.wind_kph)
@@ -20,11 +20,11 @@ export function renderWeather (response) {
     const formattedDate = format(currentDate, 'EEEE dd MMMM')
 
     weatherInfo.innerHTML = `
-        <div class="mt-24 h-full flex flex-col gap-8">
-            <div class="flex justify-evenly gap-12 w-9/12 m-auto p-10 rounded-3xl bg-black/50 backdrop-blur">
+        <div class="mt-24 h-full flex flex-col">
+            <div class="flex justify-evenly gap-12 w-9/12 m-auto mb-10 p-10 rounded-3xl bg-black/50 backdrop-blur">
                 <div class="flex flex-col items-center justify-center">
-                    <img src="${iconCondition}" class="w-20">
-                        
+                    <img class="icon w-20">
+                
                     <p class="text-lg">
                         ${textCondition}
                     </p>
@@ -115,7 +115,7 @@ export function renderWeather (response) {
 
             </div>
 
-            <div class="flex w-11/12 m-auto p-2 border-bottom text-shadow [&>*]:select-none [&>*]:text-lg [&>*]:font-semibold">
+            <div class="border-bottom flex w-11/12 m-auto p-2 text-shadow [&>*]:select-none [&>*]:text-lg [&>*]:font-semibold">
                 <h2 id="daily" class="p-2 px-5 rounded-lg cursor-pointer w-24 flex justify-center transition-all duration-200 ease-linear">
                     Daily
                 </h2>
@@ -127,8 +127,11 @@ export function renderWeather (response) {
                 </h2>
             </div>
 
-            <div id="daily-hourly" class="w-11/12 px-12 py-5 flex gap-10 m-auto overflow-auto no-scrollbar relative"></div>
+            <div id="daily-hourly" class="w-11/12 px-12 py-5 pt-20 flex gap-10 m-auto overflow-hidden no-scrollbar relative"></div>
         </div>
-    `
+    `    
     switchDailyHourly(response)
+
+    const icon = document.querySelector('.icon')
+    getConditionIcon(icon, textCondition)
 }

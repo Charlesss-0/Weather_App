@@ -1,10 +1,10 @@
 import { format, parseISO } from "date-fns"
+import { getConditionIcon } from "./index"
 
 // It gets exported to index.js module
 // Renders daily information
 export function getDailyData (day, dailyHourly) {
     const condition = day.day.condition.text
-    const icon = day.day.condition.icon
     const maxTemp = parseInt(day.day.maxtemp_c)
     const minTemp = parseInt(day.day.mintemp_c)
     const date = parseISO(day.date)
@@ -17,9 +17,9 @@ export function getDailyData (day, dailyHourly) {
                 ${formattedDate}
             </p>
 
-            <img src="${icon}" class="w-12">
+            <img class="icon w-12">
 
-            <p class="text-sm text-center h-16">
+            <p class="text-sm text-center h-14">
                 ${condition}
             </p>
 
@@ -35,4 +35,7 @@ export function getDailyData (day, dailyHourly) {
         </div>
     `
     dailyHourly.appendChild(div)
+
+    const icon = div.querySelector('.icon')
+    getConditionIcon(icon, condition)
 }
