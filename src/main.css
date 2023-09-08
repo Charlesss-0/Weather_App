@@ -121,11 +121,15 @@ body {
 }
 
 .border-left {
-    border-left: 2px solid #2f2f2f;
+    border-left: 2px solid #2f2f2faa;
 }
 
 .border-bottom {
-    border-bottom: 2px solid #2f2f2f;
+    border-bottom: 2px solid #2f2f2faa;
+}
+
+.text-shadow {
+    text-shadow: 1.5px 1.5px 1px #000;
 }
 
 .custom-gap-5vw {
@@ -151,4 +155,8 @@ body {
 
 .show {
     visibility: visible;
+}
+
+.placeholder-color::-webkit-input-placeholder {
+    color: #efefef;
 }

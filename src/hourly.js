@@ -1,48 +1,33 @@
+// It gets exported to index.js module
+// Render hourly information
 export function getHourlyData (hour, dailyHourly) {
-    const date = hour.time
+    const condition = hour.condition.text
     const icon = hour.condition.icon
     const tempC = parseInt(hour.temp_c)
     const humidity = hour.humidity
     const dewpoint = parseInt(hour.dewpoint_c)
     const uvIndex = hour.uv
-    const windSpeed = parseInt(hour.wind_kph)
 
+    const date = hour.time
     const time = new Date(date)
     const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
     const div = document.createElement('div')
     div.classList.add('hour-container', 'transition-all', 'duration-500', 'ease-in-out', 'select-none')
     div.innerHTML = `
-        <div 
-            class="
-                w-32 
-                grid 
-                justify-center 
-                gap-5 
-                text-center 
-                py-5 
-                bg-black/50 
-                backdrop-blur 
-                rounded-xl 
-                [&>*]:text-xs
-                nunito"
-                >
+        <div class="w-32 flex flex-col items-center justify-between gap-5 text-center px-2 py-5 bg-black/50 backdrop-blur rounded-xl [&>*]:text-xs nunito">
             <h1>
                 ${formattedTime}
             </h1>
 
             <img src="${icon}">
 
-            <p>
-                ${tempC}°C
+            <p class="text-lg text-center h-14">
+                ${condition}
             </p>
 
             <p>
-                Wind Speed<br>
-                <span class="flex justify-center items-center gap-2">
-                    <i class="fi fi-rr-wind grid"></i>
-                    ${windSpeed} km/h
-                </span>
+                ${tempC}°C
             </p>
 
             <p>
