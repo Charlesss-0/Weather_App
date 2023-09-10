@@ -12,7 +12,24 @@ export function getDailyData (day, dailyHourly) {
 
     const div = document.createElement('div')
     div.innerHTML = `
-        <div class="nunito text-sm bg-black/50 backdrop-blur w-32 h-96 flex flex-col justify-between items-center p-2 py-5 rounded-xl select-none">
+        <div 
+            class="
+                nunito 
+                bg-black/50 
+                backdrop-blur 
+                w-32 
+                h-96 
+                flex 
+                flex-col 
+                justify-between 
+                items-center 
+                p-2 
+                py-5 
+                rounded-xl 
+                select-none
+                [&>*]:text-xs 
+                daily
+                ">
             <p>
                 ${formattedDate}
             </p>
@@ -36,6 +53,8 @@ export function getDailyData (day, dailyHourly) {
     `
     dailyHourly.appendChild(div)
 
-    const icon = div.querySelector('.icon')
-    getConditionIcon(icon, condition)
+    const iconCondition = day.day.condition.icon
+
+    const img = div.querySelector('.icon')
+    getConditionIcon(img, iconCondition)
 }

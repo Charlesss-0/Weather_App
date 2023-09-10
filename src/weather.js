@@ -21,10 +21,23 @@ export function renderWeather (response) {
 
     weatherInfo.innerHTML = `
         <div class="mt-24 h-full flex flex-col">
-            <div class="flex justify-evenly gap-12 w-9/12 m-auto mb-10 p-10 rounded-3xl bg-black/50 backdrop-blur">
-                <div class="flex flex-col items-center justify-center">
+            <div 
+                class="
+                    flex 
+                    justify-evenly 
+                    gap-12 
+                    w-11/12 
+                    m-auto 
+                    mb-10 
+                    p-10 
+                    rounded-3xl 
+                    bg-black/50 
+                    backdrop-blur 
+                    weather
+                    ">
+                <div class="grid items-center justify-items-center">
                     <img class="icon w-20">
-                
+
                     <p class="text-lg">
                         ${textCondition}
                     </p>
@@ -35,11 +48,11 @@ export function renderWeather (response) {
                         ${formattedDate}
                     </h2>
 
-                    <div class="grid gap-1 text-4xl mt-5">
+                    <div class="grid gap-1 text-4xl mt-5 text-center-sm">
                         <p class="font-semibold">${tempC}°C</p>
 
                         <div class="flex items-center gap-2 text-lg">
-                            <i class="fi fi-rr-temperature-high grid text-lg"></i>
+                            <i class="fi fi-rr-temperature-high flex text-lg"></i>
                             <p>
                                 Feels Like ${feelslikeC}°
                             </p>
@@ -91,7 +104,7 @@ export function renderWeather (response) {
                     </div>
                 </div>
 
-                <div class="nunito flex items-center gap-10 p-3 [&>*]:grid [&>*]:justify-items-center [&>*]:text-sm">
+                <div class="nunito flex items-center gap-10 p-3 [&>*]:grid [&>*]:justify-items-center [&>*]:text-sm sm-justify-center">
                     <div>
                         <i class="fi fi-rr-sunrise-alt grid"></i>
                         <p>
@@ -115,23 +128,27 @@ export function renderWeather (response) {
 
             </div>
 
-            <div class="border-bottom flex w-11/12 m-auto p-2 text-shadow [&>*]:select-none [&>*]:text-lg [&>*]:font-semibold">
-                <h2 id="daily" class="p-2 px-5 rounded-lg cursor-pointer w-24 flex justify-center transition-all duration-200 ease-linear">
-                    Daily
-                </h2>
+            <div class="flex justify-center w-11/12 m-auto p-2 text-shadow [&>*]:select-none [&>*]:text-lg [&>*]:font-semibold">
+                <div class="flex rounded-lg font-size-lg">
+                    <h2 id="daily" class="p-2 px-5 rounded-s-lg cursor-pointer w-24 flex justify-center transition-all duration-200 ease-linear">
+                        Daily
+                    </h2>
 
-                <div class="border-left mx-5"></div>
+                    <div class="border-left"></div>
 
-                <h2 id="hourly" class="p-2 px-5 rounded-lg cursor-pointer w-24 flex justify-center transition-all duration-200 ease-linear">
-                    Hourly
-                </h2>
+                    <h2 id="hourly" class="p-2 px-5 rounded-e-lg cursor-pointer w-24 flex justify-center transition-all duration-200 ease-linear">
+                        Hourly
+                    </h2>
+                </div>
             </div>
 
-            <div id="daily-hourly" class="w-11/12 px-12 py-5 pt-20 flex gap-10 m-auto overflow-hidden no-scrollbar relative"></div>
+            <div id="daily-hourly" class="w-11/12 px-12 py-5 pt-20 flex gap-10 m-auto overflow-hidden no-scrollbar relative forecast-container"></div>
         </div>
-    `    
+    `
     switchDailyHourly(response)
 
-    const icon = document.querySelector('.icon')
-    getConditionIcon(icon, textCondition)
+    const iconCondition = response.current.condition.icon
+
+    const img = document.querySelector('.icon')
+    getConditionIcon(img, iconCondition)
 }

@@ -1,18 +1,21 @@
-import cloudy from './assets/cloudy.png'
-import overcast from './assets/overcast.png'
-import sunny from './assets/sun.png'
-import moderate from './assets/moderate.png'
-import heavy from './assets/heavy.png'
-import possible from './assets/possible.png'
-import clear from './assets/clear.png'
-import mist from './assets/mist.png'
-import fog from './assets/fog.png'
-import storm from './assets/storm.png'
-
 import { renderWeather } from "./weather"
 import { getDailyData } from "./daily"
 import { getHourlyData } from "./hourly"
 import { handleArrowClickEvents } from "./arrowEvents"
+
+import cloudyDay from './assets/cloudy-day.png'
+import overcastDay from './assets/overcast-day.png'
+import sun from './assets/sun.png'
+import moderateRain from './assets/moderate.png'
+import heavyRain from './assets/heavy.png'
+import possibleRain from './assets/possible.png'
+import mist from './assets/mist.png'
+import fog from './assets/fog.png'
+import storm from './assets/storm.png'
+import moon from './assets/moon.png'
+import cloudyNight from './assets/cloudy-night.png'
+import overcastNight from './assets/overcast-night.png'
+import cloudy from './assets/cloudy.png'
 
 const searchForm = document.getElementById('search-form')
 const searchInput = document.getElementById('search-input')
@@ -64,7 +67,7 @@ function renderCurrentTime (response) {
     const time = document.getElementById('time')
     const dateTimeString = response.formatted
     const timeDate = new Date(dateTimeString)
-    const formattedTime = timeDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    const formattedTime = timeDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
 
     time.textContent = formattedTime
 }
@@ -77,8 +80,11 @@ function renderLocation (response) {
     const country = response.location.country
 
     location.innerHTML = `
-        <h1 class="text-lg flex items-center gap-2">
-            <i class="fi fi-rr-marker grid"></i> Weather in <span class="font-semibold">${city},</span> ${region}, ${country}
+        <h1 class="text-base flex items-center gap-2 sm-text-lg font-size-sm">
+            <i class="fi fi-rr-marker grid"></i> 
+            <span>
+                Weather in <span class="font-semibold">${city},</span> ${region}, ${country}
+            </span>
         </h1>
     `
 }
@@ -122,60 +128,81 @@ function handleBackgroundColor (json) {
     const body = document.querySelector('body')
     const weatherCondition = json.current.condition.text
 
-    if (weatherCondition.includes('cloudy')) {
-        body.className = ''
-        body.classList.add('cloudy')
-
-    } else if (weatherCondition.includes('Sunny')) {
-        body.className = ''
-        body.classList.add('sunny')
-
-    } else if (weatherCondition.includes('rain')) {
-        body.className = ''
-        body.classList.add('rainny')
-
-    } else if (weatherCondition.includes('Overcast')) {
-        body.className = ''
-        body.classList.add('overcast')
-
-    } else if (weatherCondition.includes('Mist')) {
-        body.className = ''
-        body.classList.add('mist')
-
-    } else if (weatherCondition.includes('Fog')) {
-        body.className = ''
-        body.classList.add('fog')
-
-    } else if (weatherCondition.includes('Clear')) {
-        body.className = ''
-        body.classList.add('clear')
+    switch (true) {
+        case weatherCondition.includes('cloudy'):
+            body.className = ''
+            body.classList.add('cloudy')
+            break
+        case weatherCondition.includes('Sunny'):
+            body.className = ''
+            body.classList.add('sunny')
+            break
+        case weatherCondition.includes('thunder'):
+            body.className = ''
+            body.classList.add('thunder')
+            break
+        case weatherCondition.includes('rain'):
+            body.className = ''
+            body.classList.add('rainny')
+            break
+        case weatherCondition.includes('Overcast'):
+            body.className = ''
+            body.classList.add('overcast')
+            break
+        case weatherCondition.includes('Mist'):
+            body.className = ''
+            body.classList.add('mist')
+            break
+        case weatherCondition.includes('Fog'):
+            body.className = ''
+            body.classList.add('fog')
+            break
+        case weatherCondition.includes('Clear'):
+            body.className = ''
+            body.classList.add('clear')
+            break
     }
 }
 
 // It gets exported to weather.js, daily.js, and hourly.js modules
 // Sets the icon for the current weather condition
-export function getConditionIcon (icon, condition, date) {
-    if (condition.includes('cloudy') || condition.includes('Cloudy')) {
-        icon.src = cloudy
-    } else if (condition.includes('Sunny')) {
-        icon.src = sunny
-    } else if (condition.includes('rain possible')) {
-        icon.src = possible
-    } else if (condition.includes('Heavy rain')) {
-        icon.src = heavy
-    } else if (condition.includes('Moderate rain')) {
-        icon.src = moderate
-    } else if (condition.includes('Clear')) {
-        icon.src = clear
-    } else if (condition.includes('Mist')) {
-        icon.src = mist
-    } else if (condition.includes('Fog')) {
-        icon.src = fog
-    } else if (condition.includes('thunder')) {
-        icon.src = storm
-    } else if (condition.includes('Overcast')) {
-        icon.src = overcast
+export function getConditionIcon (img, condition) {
+    switch (true) {
+        case condition.includes('day/116'):
+            img.src = cloudyDay
+            break
+        case condition.includes('119'):
+            img.src = cloudy
+            break
+        case condition.includes('day/113'):
+            img.src = sun
+            break
+        case condition.includes('176') || condition.includes('353'):
+            img.src = possibleRain
+            break
+        case condition.includes('308'):
+            img.src = heavyRain
+            break
+        case condition.includes('302') || condition.includes('356') || condition.includes('299'):
+            img.src = moderateRain
+            break
+        case condition.includes('143'):
+            img.src = mist
+            break
+        case condition.includes('248'):
+            img.src = fog
+            break
+        case condition.includes('day/122'):
+            img.src = overcastDay
+            break
+        case condition.includes('night/116'):
+            img.src = cloudyNight
+            break
+        case condition.includes('night/113'):
+            img.src = moon
+            break
+        case condition.includes('night/122'):
+            img.src = overcastNight
+            break
     }
-
-    console.log(date)
 }

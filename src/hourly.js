@@ -1,4 +1,5 @@
 import { getConditionIcon } from "./index"
+import { format, parseISO } from "date-fns"
 
 // It gets exported to index.js module
 // Render hourly information
@@ -11,12 +12,29 @@ export function getHourlyData (hour, dailyHourly) {
 
     const date = hour.time
     const time = new Date(date)
-    const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
 
     const div = document.createElement('div')
     div.classList.add('hour-container', 'transition-all', 'duration-500', 'ease-in-out', 'select-none')
     div.innerHTML = `
-        <div class="w-32 flex flex-col items-center justify-between gap-5 text-center px-2 py-5 bg-black/50 backdrop-blur rounded-xl [&>*]:text-xs nunito">
+        <div 
+            class="
+                w-32 
+                flex 
+                flex-col 
+                items-center 
+                justify-between 
+                gap-5 
+                text-center 
+                px-2 
+                py-5 
+                bg-black/50 
+                backdrop-blur 
+                rounded-xl 
+                [&>*]:text-xs 
+                nunito
+                hourly
+                ">
             <h1>
                 ${formattedTime}
             </h1>
@@ -58,6 +76,8 @@ export function getHourlyData (hour, dailyHourly) {
     `
     dailyHourly.appendChild(div)
 
-    const icon = div.querySelector('.icon')
-    getConditionIcon(icon, condition, date)
+    const iconCondition = hour.condition.icon
+
+    const img = div.querySelector('.icon')
+    getConditionIcon(img, iconCondition)
 }

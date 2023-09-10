@@ -2,7 +2,7 @@
 // Handles the events on the left and right arrows in hourly information
 export function handleArrowClickEvents (dailyHourly) {
     dailyHourly.innerHTML += `
-            <div class="absolute top-5 left-2/4 centerX text-lg select-none text-shadow">
+            <div class="absolute top-5 left-2/4 centerX text-lg select-none text-shadow none">
                 <h2>
                     Today
                 </h2>
@@ -17,8 +17,9 @@ export function handleArrowClickEvents (dailyHourly) {
                     w-20 
                     grid 
                     items-center 
-                    justify-center"
-                    >
+                    justify-center
+                    none
+                    ">
                 <div id="left" 
                     class="
                         bg-black/50 
@@ -30,8 +31,8 @@ export function handleArrowClickEvents (dailyHourly) {
                         invisible 
                         transition-all 
                         duration-200 
-                        ease-in-out"
-                        >
+                        ease-in-out
+                        ">
                     <i class="fi fi-rr-angle-left grid text-2xl text-black/80"></i>
                 </div>
             </div>
@@ -45,8 +46,9 @@ export function handleArrowClickEvents (dailyHourly) {
                     w-20 
                     grid 
                     items-center 
-                    justify-center"
-                    >
+                    justify-center
+                    none
+                    ">
                 <div id="right" 
                     class="
                         bg-black/50 
