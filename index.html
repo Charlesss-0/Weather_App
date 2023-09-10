@@ -24,49 +24,68 @@
             shadow-md
             flex 
             items-center
-            justify-around
+            justify-between
             fixed 
             top-0 
-            px-5
+            px-3
             w-full 
             text-gray-200 
             z-10 
-            backdrop-blur"
-            >
-        <div id="location"></div>
-
-        <div class="flex-1 p-4">        
-            <form action="#" id="search-form"
-                class="
-                    w-full
-                    flex
-                    justify-center
-                    items-center
-                    custom-gray
-                    max-w-lg
-                    mx-auto
-                    rounded-full
-                    p-1
-                    px-3
-                    pr-4
-                    shadow-inner"
-                    >
-                <input type="search" id="search-input" placeholder="Search City or Country" 
-                    class="
-                        placeholder-color
-                        w-full 
-                        p-1 
-                        outline-0 
-                        bg-transparent 
-                        tracking-wide"
-                        >
-                <button type="submit">
-                    <i class="fi fi-br-search flex text-2xl"></i>
-                </button>
-            </form>
+            backdrop-blur
+            header
+            ">
+        <div class="flex items-center gap-10">
+            <div id="location"></div>
         </div>
 
-        <p id="time" class="text-center text-lg"></p>
+        <div class="flex items-center">
+            <div class="flex bg-white/30 rounded-md">
+                <p id="celci" class="p-1 px-2.5 hover:bg-white/20 cursor-pointer rounded-s-md">
+                    °C
+                </p>
+
+                <div class="border-left"></div>
+
+                <p id="fahren" class="p-1 px-2.5 hover:bg-white/20 cursor-pointer rounded-e-md">
+                    °F
+                </p>
+            </div>
+
+            <div class="p-4 sm-p-0">
+                <form action="#" id="search-form"
+                    class="
+                        w-96
+                        flex
+                        justify-center
+                        items-center
+                        custom-gray
+                        max-w-lg
+                        mx-auto
+                        rounded-full
+                        p-1
+                        px-3
+                        pr-4
+                        shadow-inner
+                        searchbar
+                        ">
+                    <input type="search" id="search-input" placeholder="Search City or Country"
+                        class="
+                            autofill:bg-white/10
+                            placeholder-color
+                            w-full
+                            p-1
+                            outline-0
+                            bg-transparent
+                            tracking-wide"
+                            >
+                    <button type="submit">
+                        <i class="fi fi-br-search flex text-2xl icon-size"></i>
+                    </button>
+                </form>
+            </div>
+
+            <p id="time" class="text-center text-lg"></p>
+        </div>
     </header>
 
     <main id="main-content" class="text-gray-200 ml-0">
@@ -75,7 +94,7 @@
 
     <footer id="footer-content" 
         class="
-            flex
+            grid
             items-center
             gap-10
             text-sm
@@ -84,8 +103,8 @@
             bg-black/80
             backdrop-blur
             p-10
-            mt-10"
-            >
+            mt-10
+            ">
         <div 
             class="
                 flex-1
@@ -93,30 +112,33 @@
                 gap-10
                 text-start
                 text-sm
-                [&>*]:grid 
-                [&>*]:gap-2 
+                [&>*]:grid
+                font-size-sm
                 ">
             <div>
-                <h2 class="text-center mb-3">
+                <h2 class="mb-2">
                     API's
                 </h2>
 
-                <a href="https://www.weatherapi.com" target="_blank" class="text-amber-100 hover:text-amber-200">Weatherapi.com</a>
-                <a href="https://timezonedb.com" target="_blank" class="text-amber-100 hover:text-amber-200">timezonedb.com</a>
+                <a href="https://www.weatherapi.com" target="_blank" class="text-amber-100 hover:text-amber-200">Weatherapi</a>
+                <a href="https://timezonedb.com" target="_blank" class="text-amber-100 hover:text-amber-200">timezonedb</a>
             </div>
 
+            <div class="border-left"></div>
+
             <div>
-                <h2 class="text-center mb-3">
+                <h2 class="mb-2">
                     Assets
                 </h2>
 
-                <a href="https://www.flaticon.com" target="_blank" class="text-amber-100 hover:text-amber-200">Flaticon.com</a>
-                <a href="https://www.flaticon.com" target="_blank">icons created by Freepik - Flaticon</a>
-                <a href="https://unsplash.com" target="_blank" class="text-amber-100 hover:text-amber-200">Unsplash.com</a>
+                <a href="https://unsplash.com" target="_blank" class="text-amber-100 hover:text-amber-200">Unsplash</a>
+                <a href="https://www.flaticon.com" target="_blank" class="text-amber-100 hover:text-amber-200">Freepik - Flaticon</a>
             </div>
         </div>
 
-         <h2>
+        <div class="border-bottom none"></div>
+
+         <h2 class="font-size-sm">
             &copy; Made with ❤️ by <a href="https://github.com/Charlesss-0" target="_blank" class="text-amber-100 hover:text-amber-200">Charlesdev</a>
         </h2>
     </footer>
