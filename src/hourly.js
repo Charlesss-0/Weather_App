@@ -1,5 +1,4 @@
 import { getConditionIcon } from "./index"
-import { format, parseISO } from "date-fns"
 
 // It gets exported to index.js module
 // Render hourly information

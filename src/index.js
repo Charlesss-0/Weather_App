@@ -97,7 +97,6 @@ export function switchDailyHourly (response) {
     const hourly = document.getElementById('hourly')
 
     renderDailyWeather()
-    // renderHourlyWeather()
     daily.addEventListener('click', renderDailyWeather)
     hourly.addEventListener('click', renderHourlyWeather)
 
@@ -121,6 +120,24 @@ export function switchDailyHourly (response) {
         hourlyData.forEach((hour) => getHourlyData(hour, dailyHourly))
         handleArrowClickEvents(dailyHourly)
     }
+}
+
+// Add click event to celsius and fahrenheit buttons to switch between the two different data types
+export function switchDataType (json, mainTemp, feelslike) {
+    const celsius = document.getElementById('celsius')
+    const fahrenheit = document.getElementById('fahrenheit')
+
+    celsius.addEventListener('click', () => {
+        const celData = parseInt(json.current.temp_c)
+        mainTemp.textContent = `${celData}°C`
+        feelslike.textContent = `Feels Like ${celData}°C`
+    })
+
+    fahrenheit.addEventListener('click', () => {
+        const farData = parseInt(json.current.temp_f)
+        mainTemp.textContent = `${farData}°F`
+        feelslike.textContent = `Feels Like ${farData}°F`
+    })
 }
 
 // Changes background image depending on the weather condition
@@ -204,5 +221,7 @@ export function getConditionIcon (img, condition) {
         case condition.includes('night/122'):
             img.src = overcastNight
             break
+        case condition.includes('386'):
+            img.src = storm
     }
 }

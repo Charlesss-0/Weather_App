@@ -1,5 +1,5 @@
 import { format, parseISO } from "date-fns"
-import { switchDailyHourly } from "./index"
+import { switchDailyHourly, switchDataType } from "./index"
 import { getConditionIcon } from "./index"
 
 // It gets exported to index.js module
@@ -49,11 +49,11 @@ export function renderWeather (response) {
                     </h2>
 
                     <div class="grid gap-1 text-4xl mt-5 text-center-sm">
-                        <p class="font-semibold">${tempC}°C</p>
+                        <p class="main-temp font-semibold">${tempC}°C</p>
 
                         <div class="flex items-center gap-2 text-lg">
                             <i class="fi fi-rr-temperature-high flex text-lg"></i>
-                            <p>
+                            <p class="feels-like">
                                 Feels Like ${feelslikeC}°
                             </p>
                         </div>
@@ -150,5 +150,9 @@ export function renderWeather (response) {
     const iconCondition = response.current.condition.icon
 
     const img = document.querySelector('.icon')
+    const mainTemp = document.querySelector('.main-temp')
+    const feelslike = document.querySelector('.feels-like')
+
     getConditionIcon(img, iconCondition)
+    switchDataType(response, mainTemp, feelslike)
 }
