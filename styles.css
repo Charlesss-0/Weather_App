@@ -1050,41 +1050,49 @@ body {
 .cloudy {
   background: url(https://images.unsplash.com/photo-1506260408121-e353d10b87c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1856&q=80);
   background-size: cover;
+  background-position: center;
 }
 
 .rainny {
   background: url(https://images.unsplash.com/photo-1507027682794-35e6c12ad5b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80);
   background-size: cover;
+  background-position: center;
 }
 
 .thunder {
   background: url(https://images.unsplash.com/photo-1500674425229-f692875b0ab7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80);
   background-size: cover;
+  background-position: center;
 }
 
 .sunny {
   background: url(https://images.unsplash.com/photo-1612863229236-60722f5ef8c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80);
   background-size: cover;
+  background-position: center;
 }
 
 .overcast {
   background: url(https://images.unsplash.com/photo-1504190349434-dd1a117b2231?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1952&q=80);
   background-size: cover;
+  background-position: center;
 }
 
 .mist {
   background: url(https://images.unsplash.com/photo-1511884642898-4c92249e20b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80);
   background-size: cover;
+  background-position: center;
 }
 
 .fog {
   background: url(https://images.unsplash.com/photo-1552152370-fb05b25ff17d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1769&q=80);
   background-size: cover;
+  background-position: center;
 }
 
 .clear {
   background: url(https://images.unsplash.com/photo-1429704658776-3d38c9990511?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1979&q=80);
   background-size: cover;
+  background-position: center;
 }
 
 .custom-gradient {
