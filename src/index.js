@@ -1,7 +1,7 @@
-import { renderWeather } from "./weather"
-import { getDailyData } from "./daily"
-import { getHourlyData } from "./hourly"
-import { handleArrowClickEvents } from "./arrowEvents"
+import { renderWeather } from './weather'
+import { getDailyData } from './daily'
+import { getHourlyData } from './hourly'
+import { handleArrowClickEvents } from './arrowEvents'
 
 import cloudyDay from './assets/cloudy-day.png'
 import overcastDay from './assets/overcast-day.png'
@@ -19,6 +19,8 @@ import cloudy from './assets/cloudy.png'
 
 const searchForm = document.getElementById('search-form')
 const searchInput = document.getElementById('search-input')
+
+const log = e => console.log(e)
 
 // Retrieves and renders the weather data of the current position
 async function getWeatherData (position) {
@@ -128,15 +130,17 @@ export function switchDataType (json, mainTemp, feelslike) {
     const fahrenheit = document.getElementById('fahrenheit')
 
     celsius.addEventListener('click', () => {
-        const celData = parseInt(json.current.temp_c)
-        mainTemp.textContent = `${celData}°C`
-        feelslike.textContent = `Feels Like ${celData}°C`
+        const tempC = parseInt(json.current.temp_c)
+        const likeC = parseInt(json.current.feelslike_c)
+        mainTemp.textContent = `${tempC}°C`
+        feelslike.textContent = `Feels Like ${likeC}°`
     })
 
     fahrenheit.addEventListener('click', () => {
-        const farData = parseInt(json.current.temp_f)
-        mainTemp.textContent = `${farData}°F`
-        feelslike.textContent = `Feels Like ${farData}°F`
+        const tempF = parseInt(json.current.temp_f)
+        const likeF = parseInt(json.current.feelslike_f)
+        mainTemp.textContent = `${tempF}°F`
+        feelslike.textContent = `Feels Like ${likeF}°F`
     })
 }
 
@@ -194,13 +198,13 @@ export function getConditionIcon (img, condition) {
         case condition.includes('day/113'):
             img.src = sun
             break
-        case condition.includes('176') || condition.includes('353'):
+        case condition.includes('176') || condition.includes('353') || condition.includes('263'):
             img.src = possibleRain
             break
         case condition.includes('308'):
             img.src = heavyRain
             break
-        case condition.includes('302') || condition.includes('356') || condition.includes('299'):
+        case condition.includes('302') || condition.includes('356') || condition.includes('299') || condition.includes('296'):
             img.src = moderateRain
             break
         case condition.includes('143'):
