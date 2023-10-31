@@ -1,8 +1,8 @@
-import { getConditionIcon } from "./index"
+import { getConditionIcon } from './index'
 
 // It gets exported to index.js module
 // Render hourly information
-export function getHourlyData (hour, dailyHourly) {
+export function getHourlyData(hour, dailyHourly) {
     const condition = hour.condition.text
     const tempC = parseInt(hour.temp_c)
     const humidity = hour.humidity
@@ -11,12 +11,22 @@ export function getHourlyData (hour, dailyHourly) {
 
     const date = hour.time
     const time = new Date(date)
-    const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+    const formattedTime = time.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    })
 
     const div = document.createElement('div')
-    div.classList.add('hour-container', 'transition-all', 'duration-500', 'ease-in-out', 'select-none')
-    div.innerHTML = `
-        <div 
+    div.classList.add(
+        'hour-container',
+        'transition-all',
+        'duration-500',
+        'ease-in-out',
+        'select-none'
+    )
+    div.innerHTML = /* HTML */ `
+        <div
             class="
                 w-32 
                 flex 
@@ -33,23 +43,18 @@ export function getHourlyData (hour, dailyHourly) {
                 [&>*]:text-xs 
                 nunito
                 hourly
-                ">
-            <h1>
-                ${formattedTime}
-            </h1>
+                "
+        >
+            <h1>${formattedTime}</h1>
 
-            <img class="icon w-10">
+            <img class="icon w-10" />
 
-            <p class="text-lg text-center h-12">
-                ${condition}
-            </p>
+            <p class="text-lg text-center h-12">${condition}</p>
 
-            <p>
-                ${tempC}°C
-            </p>
+            <p>${tempC}°C</p>
 
             <p>
-                Humidity<br>
+                Humidity<br />
                 <span class="flex justify-center items-center gap-2">
                     <i class="fi fi-rr-raindrops grid"></i>
                     ${humidity}%
@@ -57,7 +62,7 @@ export function getHourlyData (hour, dailyHourly) {
             </p>
 
             <p>
-                Dew Point<br>
+                Dew Point<br />
                 <span class="flex justify-center items-center gap-2">
                     <i class="fi fi-rr-dewpoint grid"></i>
                     ${dewpoint}°
@@ -65,7 +70,7 @@ export function getHourlyData (hour, dailyHourly) {
             </p>
 
             <p>
-                UV Index<br>
+                UV Index<br />
                 <span class="flex justify-center items-center gap-2">
                     <i class="fi fi-rr-sun grid"></i>
                     ${uvIndex} of 11

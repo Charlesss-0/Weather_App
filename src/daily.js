@@ -1,9 +1,9 @@
-import { format, parseISO } from "date-fns"
-import { getConditionIcon } from "./index"
+import { format, parseISO } from 'date-fns'
+import { getConditionIcon } from './index'
 
 // It gets exported to index.js module
 // Renders daily information
-export function getDailyData (day, dailyHourly) {
+export function getDailyData(day, dailyHourly) {
     const condition = day.day.condition.text
     const maxTemp = parseInt(day.day.maxtemp_c)
     const minTemp = parseInt(day.day.mintemp_c)

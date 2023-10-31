@@ -20,15 +20,17 @@ import cloudy from './assets/cloudy.png'
 const searchForm = document.getElementById('search-form')
 const searchInput = document.getElementById('search-input')
 
-const log = e => console.log(e)
+const log = (e) => console.log(e)
 
 // Retrieves and renders the weather data of the current position
-async function getWeatherData (position) {
+async function getWeatherData(position) {
     const lat = position.coords.latitude
     const lon = position.coords.longitude
 
-    const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${lat},${lon}&days=8`,
-    { mode: 'cors' })
+    const response = await fetch(
+        `https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${lat},${lon}&days=8`,
+        { mode: 'cors' }
+    )
     const json = await response.json()
     renderWeather(json)
     renderLocation(json)
@@ -38,12 +40,14 @@ async function getWeatherData (position) {
 navigator.geolocation.getCurrentPosition(getWeatherData)
 
 // Renders the weather data of the searched city
-async function getSearchResult (event) {
+async function getSearchResult(event) {
     event.preventDefault()
 
     const input = searchInput.value
-    const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${input}&days=08`,
-    { mode: 'cors' })
+    const response = await fetch(
+        `https://api.weatherapi.com/v1/forecast.json?key=0112e4e65c914c9591532907232608&q=${input}&days=08`,
+        { mode: 'cors' }
+    )
     const json = await response.json()
     const lat = json.location.lat
     const lon = json.location.lon
@@ -58,23 +62,29 @@ async function getSearchResult (event) {
 searchForm.addEventListener('submit', getSearchResult)
 
 // API to get any localtime, in this case the localtime for the current position or the searched city
-async function getCurrentTime (lat, lon) {
-    const response = await fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=FB9X38BQ1RT7&format=json&by=position&lat=${lat}&lng=${lon}`, 
-    { mode: 'cors' })
+async function getCurrentTime(lat, lon) {
+    const response = await fetch(
+        `https://api.timezonedb.com/v2.1/get-time-zone?key=FB9X38BQ1RT7&format=json&by=position&lat=${lat}&lng=${lon}`,
+        { mode: 'cors' }
+    )
     const json = await response.json()
     renderCurrentTime(json)
 }
 
-function renderCurrentTime (response) {
+function renderCurrentTime(response) {
     const time = document.getElementById('time')
     const dateTimeString = response.formatted
     const timeDate = new Date(dateTimeString)
-    const formattedTime = timeDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+    const formattedTime = timeDate.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    })
 
     time.textContent = formattedTime
 }
 
-function renderLocation (response) {
+function renderLocation(response) {
     const location = document.getElementById('location')
 
     const city = response.location.name
@@ -93,7 +103,7 @@ function renderLocation (response) {
 
 // It gets exported to weather.js module
 // It handles the daily.js and hourly.js modules by rendering their content
-export function switchDailyHourly (response) {
+export function switchDailyHourly(response) {
     const dailyHourly = document.getElementById('daily-hourly')
     const daily = document.getElementById('daily')
     const hourly = document.getElementById('hourly')
@@ -102,21 +112,21 @@ export function switchDailyHourly (response) {
     daily.addEventListener('click', renderDailyWeather)
     hourly.addEventListener('click', renderHourlyWeather)
 
-    function renderDailyWeather () {
+    function renderDailyWeather() {
         hourly.classList.remove('bg-black/50')
         daily.classList.add('bg-black/50')
         dailyHourly.classList.add('justify-center')
-        
+
         dailyHourly.innerHTML = ''
         const dailyData = response.forecast.forecastday
         dailyData.forEach((day) => getDailyData(day, dailyHourly))
     }
 
-    function renderHourlyWeather () {
+    function renderHourlyWeather() {
         daily.classList.remove('bg-black/50')
         hourly.classList.add('bg-black/50')
         dailyHourly.classList.remove('justify-center')
-    
+
         dailyHourly.innerHTML = ''
         const hourlyData = response.forecast.forecastday[0].hour
         hourlyData.forEach((hour) => getHourlyData(hour, dailyHourly))
@@ -125,7 +135,7 @@ export function switchDailyHourly (response) {
 }
 
 // Add click event to celsius and fahrenheit buttons to switch between the two different data types
-export function switchDataType (json, mainTemp, feelslike) {
+export function switchDataType(json, mainTemp, feelslike) {
     const celsius = document.getElementById('celsius')
     const fahrenheit = document.getElementById('fahrenheit')
 
@@ -145,7 +155,7 @@ export function switchDataType (json, mainTemp, feelslike) {
 }
 
 // Changes background image depending on the weather condition
-function handleBackgroundColor (json) {
+function handleBackgroundColor(json) {
     const body = document.querySelector('body')
     const weatherCondition = json.current.condition.text
 
@@ -187,7 +197,7 @@ function handleBackgroundColor (json) {
 
 // It gets exported to weather.js, daily.js, and hourly.js modules
 // Sets the icon for the current weather condition
-export function getConditionIcon (img, condition) {
+export function getConditionIcon(img, condition) {
     switch (true) {
         case condition.includes('day/116'):
             img.src = cloudyDay
@@ -198,13 +208,18 @@ export function getConditionIcon (img, condition) {
         case condition.includes('day/113'):
             img.src = sun
             break
-        case condition.includes('176') || condition.includes('353') || condition.includes('263'):
+        case condition.includes('176') ||
+            condition.includes('353') ||
+            condition.includes('263'):
             img.src = possibleRain
             break
         case condition.includes('308'):
             img.src = heavyRain
             break
-        case condition.includes('302') || condition.includes('356') || condition.includes('299') || condition.includes('296'):
+        case condition.includes('302') ||
+            condition.includes('356') ||
+            condition.includes('299') ||
+            condition.includes('296'):
             img.src = moderateRain
             break
         case condition.includes('143'):
